@@ -23,14 +23,20 @@
  */
 
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NodeShelf } from "@sanu/layout/editor-workspace/node-shelf/node-shelf";
+import { ImageBoard } from "@sanu/layout/editor-workspace/image-board/image-board";
+import { FlowPanel } from "@sanu/layout/editor-workspace/flow-panel/flow-panel";
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  selector: 'app-editor-workspace',
+  imports: [
+    FlowPanel,
+    ImageBoard,
+    NodeShelf,
+],
+  templateUrl: './editor-workspace.html',
+  styleUrl: './editor-workspace.scss'
 })
-export class App {
+export class EditorWorkspace {
 
 }

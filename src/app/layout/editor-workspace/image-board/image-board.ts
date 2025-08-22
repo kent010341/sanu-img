@@ -23,14 +23,13 @@
  */
 
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  selector: 'app-image-board',
+  imports: [],
+  templateUrl: './image-board.html',
+  styleUrl: './image-board.scss'
 })
-export class App {
+export class ImageBoard {
 
 }

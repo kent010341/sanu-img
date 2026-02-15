@@ -22,14 +22,86 @@
  * SOFTWARE.
  */
 
-import { Component } from '@angular/core';
+import { Component, ElementRef, signal, viewChild } from '@angular/core';
+import { LucideAngularModule, Upload, Image as ImageIcon } from 'lucide-angular';
 
 @Component({
   selector: 'app-image-board',
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './image-board.html',
   styleUrl: './image-board.scss'
 })
 export class ImageBoard {
 
+  protected readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');
+  
+  protected readonly Upload = Upload;
+  protected readonly Image = ImageIcon;
+  
+  protected readonly selectedImage = signal<string | null>(null);
+  protected readonly isDragging = signal(false);
+  protected readonly imageInfo = signal<{
+    width: number;
+    height: number;
+    format: string;
+  } | null>(null);
+
+  protected onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.loadImage(input.files[0]);
+    }
+  }
+
+  protected onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(true);
+  }
+
+  protected onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(false);
+  }
+
+  protected onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging.set(false);
+
+    if (event.dataTransfer?.files && event.dataTransfer.files[0]) {
+      const file = event.dataTransfer.files[0];
+      if (file.type.startsWith('image/')) {
+        this.loadImage(file);
+      }
+    }
+  }
+
+  protected openFilePicker(): void {
+    this.fileInput().nativeElement.click();
+  }
+
+  private loadImage(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result as string;
+      this.selectedImage.set(dataUrl);
+      
+      // Get image dimensions
+      const img = new Image();
+      img.onload = () => {
+        // Get format from MIME type
+        const format = file.type.split('/')[1].toUpperCase();
+        
+        this.imageInfo.set({
+          width: img.width,
+          height: img.height,
+          format: format
+        });
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  }
 }

@@ -1,0 +1,41 @@
+<div class="image-board-container">
+
+    <!-- an invisible input for triggering the file picker -->
+    <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" style="display: none;" />
+
+    @if (imageInfo()) {
+        <div class="image-info">
+            <span class="info-item">{{ imageInfo()!.width }} | {{ imageInfo()!.height }}</span>
+            <span class="info-separator">•</span>
+            <span class="info-item">{{ imageInfo()!.format }}</span>
+        </div>
+    }
+
+    <div class="drop-zone" 
+         [class.dragging]="isDragging()"
+         [class.has-image]="selectedImage()"
+         (click)="openFilePicker()"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)">
+        @if (selectedImage() != null) {
+            <img [src]="selectedImage()" alt="Selected image" class="preview-image" />
+        } @else {
+            <div class="placeholder">
+                <lucide-icon [img]="Image" class="placeholder-icon"></lucide-icon>
+                <h3 class="placeholder-title">No Image Selected</h3>
+                <p class="placeholder-description">
+                    Click to browse or drag and drop an image here
+                </p>
+                <div class="placeholder-hint">
+                    <lucide-icon [img]="Upload" class="upload-icon"></lucide-icon>
+                    <span>Upload Image</span>
+                </div>
+                <div class="dragging-hint">
+                    <lucide-icon [img]="Upload" class="upload-icon"></lucide-icon>
+                    <span>Release to upload</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>

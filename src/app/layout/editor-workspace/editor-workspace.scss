@@ -1,0 +1,55 @@
+$color-text-light: #ffffff;
+$color-bg-dark-primary: #1e1e1e;
+$color-bg-dark-secondary: #252526;
+$color-bg-dark-tertiary: #2a2a2a;
+$color-bg-dark-gradient-mid: #2c2c2c;
+$color-border-gray: #3c3c3c;
+
+.editor-workspace {
+  height: 100vh;
+  background: linear-gradient(to bottom, $color-bg-dark-primary, $color-bg-dark-gradient-mid, $color-bg-dark-secondary);
+  padding: 1rem;
+  color: $color-text-light;
+}
+
+.editor-workspace-content {
+  display: flex;
+  height: 100%;
+  background-color: $color-bg-dark-primary;
+  border: 2px solid $color-border-gray;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.sidebar-left {
+  display: none;
+  width: 25%;
+  background-color: $color-bg-dark-secondary;
+  border-right: 2px solid $color-border-gray;
+  overflow-y: auto;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
+
+.main-content {
+  flex: 1;
+  background-color: $color-bg-dark-tertiary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-right {
+  display: none;
+  width: 25%;
+  background-color: $color-bg-dark-secondary;
+  border-left: 2px solid $color-border-gray;
+  overflow-y: auto;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
+}

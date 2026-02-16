@@ -20,10 +20,12 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/cdk": "^20.2.14",
     "@angular/common": "^20.1.0",
     "@angular/compiler": "^20.1.0",
     "@angular/core": "^20.1.0",
     "@angular/forms": "^20.1.0",
+    "@angular/material": "^20.2.14",
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
     "lucide-angular": "^0.541.0",

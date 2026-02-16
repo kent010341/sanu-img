@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2025 Kent010341
+ * Copyright (c) 2026 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,13 @@
  */
 
 import { Component } from '@angular/core';
-import { OperatorNode } from '@sanu/components/operator-node/operator-node';
-import { OperatorType } from '@sanu/core/operator/operator-metadata';
 
 @Component({
-  selector: 'app-node-shelf',
-  imports: [OperatorNode],
-  templateUrl: './node-shelf.html',
-  styleUrl: './node-shelf.scss'
+  selector: 'app-operator-instance',
+  imports: [],
+  templateUrl: './operator-instance.html',
+  styleUrl: './operator-instance.scss'
 })
-export class NodeShelf {
-
-  protected readonly operatorTypes = Object.values(OperatorType);
-
-  protected onNodeClick(operatorType: OperatorType): void {
-    // TODO: Implement node click logic
-    console.log('Operator node clicked:', operatorType);
-  }
+export class OperatorInstance {
 
 }

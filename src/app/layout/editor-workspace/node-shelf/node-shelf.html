@@ -1,0 +1,11 @@
+<div class="node-shelf">
+  <h3 class="shelf-title">Operators</h3>
+  <div class="node-list">
+    @for (operatorType of operatorTypes; track operatorType) {
+      <app-operator-node 
+        [operatorType]="operatorType"
+        (nodeClick)="onNodeClick($event)"
+      />
+    }
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="operator-node" (click)="onClick()">
+  <div class="node-glow"></div>
+  <div class="node-content">
+    <div class="node-icon">
+      <lucide-icon [img]="metadata().icon" [size]="24"></lucide-icon>
+    </div>
+    <div class="node-label">{{ metadata().label }}</div>
+  </div>
+</div>

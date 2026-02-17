@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2025 Kent010341
+ * Copyright (c) 2026 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,35 @@
  * SOFTWARE.
  */
 
-import { Component, inject } from '@angular/core';
-import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
-import { OperatorType } from '@sanu/core/operator/operator-metadata';
-import { OperatorFactory } from '@sanu/core/operator/operator-factory';
-import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
+import { LucideIconData, Move } from "lucide-angular";
+import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
+import { RESIZE_CONFIG_SCHEMA } from "@sanu/operators/resize/resize.config";
 
-@Component({
-  selector: 'app-node-shelf',
-  imports: [OperatorDefinition],
-  templateUrl: './node-shelf.html',
-  styleUrl: './node-shelf.scss'
-})
-export class NodeShelf {
+export enum OperatorType {
 
-  private readonly operatorFactory = inject(OperatorFactory);
-  private readonly pipelineProcessor = inject(PipelineProcessor);
-
-  protected readonly operatorTypes = Object.values(OperatorType);
-
-  protected onNodeClick(operatorType: OperatorType): void {
-    const operator = this.operatorFactory.createOperator(operatorType);
-    this.pipelineProcessor.appendOperator(operator);
-  }
+  RESIZE = 'RESIZE',
 
 }
+
+export interface OperatorMetadata {
+
+  readonly type: OperatorType;
+
+  readonly label: string;
+
+  readonly icon: LucideIconData;
+
+  readonly configSchema: OperatorConfigSchema<Record<string, unknown>>;
+
+}
+
+export const OPERATOR_METADATA: Record<OperatorType, OperatorMetadata> = {
+
+  [OperatorType.RESIZE]: {
+    type: OperatorType.RESIZE,
+    label: 'Resize',
+    icon: Move,
+    configSchema: RESIZE_CONFIG_SCHEMA,
+  },
+
+};

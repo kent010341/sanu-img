@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2025 Kent010341
+ * Copyright (c) 2026 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,27 @@
  * SOFTWARE.
  */
 
-import { Component, inject } from '@angular/core';
-import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
-import { OperatorType } from '@sanu/core/operator/operator-metadata';
-import { OperatorFactory } from '@sanu/core/operator/operator-factory';
-import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
-
-@Component({
-  selector: 'app-node-shelf',
-  imports: [OperatorDefinition],
-  templateUrl: './node-shelf.html',
-  styleUrl: './node-shelf.scss'
-})
-export class NodeShelf {
-
-  private readonly operatorFactory = inject(OperatorFactory);
-  private readonly pipelineProcessor = inject(PipelineProcessor);
-
-  protected readonly operatorTypes = Object.values(OperatorType);
-
-  protected onNodeClick(operatorType: OperatorType): void {
-    const operator = this.operatorFactory.createOperator(operatorType);
-    this.pipelineProcessor.appendOperator(operator);
+/**
+ * Generate a UUID v4.
+ * Uses crypto.randomUUID() in secure contexts (localhost, 127.0.0.1, HTTPS).
+ * Falls back to Math.random() in non-secure contexts (e.g., HTTP on 192.168.x.x).
+ */
+export function generateUUID(): string {
+  // Check if we're in a secure context and crypto.randomUUID is available
+  if (
+    typeof window !== 'undefined'
+        && window.isSecureContext
+        && typeof crypto !== 'undefined'
+        && typeof crypto.randomUUID === 'function'
+  ) {
+    return crypto.randomUUID();
   }
 
+  // Fallback implementation for non-secure contexts
+  // This generates a valid UUID v4 format using Math.random()
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }

@@ -22,28 +22,22 @@
  * SOFTWARE.
  */
 
-import { Component, inject } from '@angular/core';
-import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
-import { OperatorType } from '@sanu/core/operator/operator-metadata';
-import { OperatorFactory } from '@sanu/core/operator/operator-factory';
-import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
+import { ImageOperator } from "@sanu/core/operator/image-operator";
 
-@Component({
-  selector: 'app-node-shelf',
-  imports: [OperatorDefinition],
-  templateUrl: './node-shelf.html',
-  styleUrl: './node-shelf.scss'
-})
-export class NodeShelf {
+export class ImagePipeline {
 
-  private readonly operatorFactory = inject(OperatorFactory);
-  private readonly pipelineProcessor = inject(PipelineProcessor);
+  async process(source: ImageBitmap, operators: ImageOperator[]): Promise<ImageBitmap> {
 
-  protected readonly operatorTypes = Object.values(OperatorType);
+    let current = source;
 
-  protected onNodeClick(operatorType: OperatorType): void {
-    const operator = this.operatorFactory.createOperator(operatorType);
-    this.pipelineProcessor.appendOperator(operator);
+    for (const op of operators) {
+      if (!op.enable()) {
+        continue;
+      }
+      current = await op.apply(current);
+    }
+
+    return current;
   }
 
 }

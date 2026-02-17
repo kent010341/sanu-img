@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2025 Kent010341
+ * Copyright (c) 2026 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,19 @@
  * SOFTWARE.
  */
 
-import { Component, inject } from '@angular/core';
-import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
-import { OperatorType } from '@sanu/core/operator/operator-metadata';
-import { OperatorFactory } from '@sanu/core/operator/operator-factory';
-import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
+import { WritableSignal } from "@angular/core";
+import { OperatorType } from "@sanu/core/operator/operator-metadata";
 
-@Component({
-  selector: 'app-node-shelf',
-  imports: [OperatorDefinition],
-  templateUrl: './node-shelf.html',
-  styleUrl: './node-shelf.scss'
-})
-export class NodeShelf {
+export interface ImageOperator<C extends Record<string, unknown> = Record<string, unknown>> {
 
-  private readonly operatorFactory = inject(OperatorFactory);
-  private readonly pipelineProcessor = inject(PipelineProcessor);
+  readonly id: string;
 
-  protected readonly operatorTypes = Object.values(OperatorType);
+  readonly type: OperatorType;
 
-  protected onNodeClick(operatorType: OperatorType): void {
-    const operator = this.operatorFactory.createOperator(operatorType);
-    this.pipelineProcessor.appendOperator(operator);
-  }
+  readonly config: WritableSignal<C>;
+
+  readonly enable: WritableSignal<boolean>;
+
+  apply(input: ImageBitmap): Promise<ImageBitmap>;
 
 }

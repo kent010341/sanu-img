@@ -22,28 +22,43 @@
  * SOFTWARE.
  */
 
-import { Component, inject } from '@angular/core';
-import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
-import { OperatorType } from '@sanu/core/operator/operator-metadata';
-import { OperatorFactory } from '@sanu/core/operator/operator-factory';
-import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
+import { effect, Injectable, signal } from "@angular/core";
+import { ImageOperator } from "@sanu/core/operator/image-operator";
+import { ImagePipeline } from "@sanu/core/pipeline/image-pipeline";
 
-@Component({
-  selector: 'app-node-shelf',
-  imports: [OperatorDefinition],
-  templateUrl: './node-shelf.html',
-  styleUrl: './node-shelf.scss'
+@Injectable({
+  providedIn: "root"
 })
-export class NodeShelf {
+export class PipelineProcessor {
 
-  private readonly operatorFactory = inject(OperatorFactory);
-  private readonly pipelineProcessor = inject(PipelineProcessor);
+  readonly source = signal<ImageBitmap | null>(null);
 
-  protected readonly operatorTypes = Object.values(OperatorType);
+  readonly operators = signal<ImageOperator[]>([]);
 
-  protected onNodeClick(operatorType: OperatorType): void {
-    const operator = this.operatorFactory.createOperator(operatorType);
-    this.pipelineProcessor.appendOperator(operator);
+  readonly result = signal<ImageBitmap | null>(null);
+
+  private readonly pipeline = new ImagePipeline();
+
+  constructor() {
+    effect(async () => {
+      const src = this.source();
+      const ops = this.operators();
+
+      if (src == null) {
+        return;
+      }
+
+      const result = await this.pipeline.process(src, ops);
+      this.result.set(result);
+    });
+  }
+
+  appendOperator(operator: ImageOperator): void {
+    this.operators.update(ops => [...ops, operator]);
+  }
+
+  removeOperator(operatorId: string): void {
+    this.operators.update(ops => ops.filter(op => op.id !== operatorId));
   }
 
 }

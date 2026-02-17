@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2025 Kent010341
+ * Copyright (c) 2026 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,29 @@
  * SOFTWARE.
  */
 
-import { Component, inject } from '@angular/core';
-import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
-import { OperatorType } from '@sanu/core/operator/operator-metadata';
-import { OperatorFactory } from '@sanu/core/operator/operator-factory';
-import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
+import { Component,  computed,  input, output } from '@angular/core';
+import { LucideAngularModule } from 'lucide-angular';
+import { OPERATOR_METADATA, OperatorType } from '@sanu/core/operator/operator-metadata';
 
 @Component({
-  selector: 'app-node-shelf',
-  imports: [OperatorDefinition],
-  templateUrl: './node-shelf.html',
-  styleUrl: './node-shelf.scss'
+  selector: 'app-operator-definition',
+  imports: [LucideAngularModule],
+  templateUrl: './operator-definition.html',
+  styleUrl: './operator-definition.scss'
 })
-export class NodeShelf {
+export class OperatorDefinition {
 
-  private readonly operatorFactory = inject(OperatorFactory);
-  private readonly pipelineProcessor = inject(PipelineProcessor);
+  readonly operatorType = input.required<OperatorType>();
 
-  protected readonly operatorTypes = Object.values(OperatorType);
+  readonly nodeClick = output<OperatorType>();
 
-  protected onNodeClick(operatorType: OperatorType): void {
-    const operator = this.operatorFactory.createOperator(operatorType);
-    this.pipelineProcessor.appendOperator(operator);
+  protected readonly metadata = computed(() => {
+    const opType = this.operatorType();
+    return OPERATOR_METADATA[opType];
+  });
+
+  protected onClick(): void {
+    this.nodeClick.emit(this.operatorType());
   }
 
 }

@@ -1,0 +1,38 @@
+<div class="operator-instance" [class.disabled]="!enabled()">
+  <div class="instance-glow"></div>
+  <div class="instance-content">
+    <div class="instance-header">
+      <div class="instance-icon">
+        <lucide-icon [img]="metadata().icon" [size]="24"></lucide-icon>
+      </div>
+      <div class="instance-label">{{ metadata().label }}</div>
+      <div class="instance-actions">
+        <button class="action-button" (click)="toggleEnable()" [title]="enabled() ? 'Disable' : 'Enable'">
+          <lucide-icon [img]="enabled() ? Eye : EyeOff" [size]="16"></lucide-icon>
+        </button>
+        <button class="action-button delete" (click)="remove()" title="Remove">
+          <lucide-icon [img]="Trash2" [size]="16"></lucide-icon>
+        </button>
+      </div>
+    </div>
+    <div class="instance-config">
+      @for (field of configFields(); track field.key) {
+        <div class="config-field">
+          <label class="config-label">
+            {{ field.label || field.key }}
+            @if (field.required) {
+              <span class="required-mark">*</span>
+            }
+          </label>
+          <input 
+            type="number"
+            class="config-input"
+            [value]="getValue(field.key) ?? ''"
+            [placeholder]="field.placeholder || ''"
+            (input)="updateConfig(field.key, $any($event.target).value)"
+          />
+        </div>
+      }
+    </div>
+  </div>
+</div>

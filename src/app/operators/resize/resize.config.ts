@@ -22,28 +22,27 @@
  * SOFTWARE.
  */
 
-import { Component, inject } from '@angular/core';
-import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
-import { OperatorType } from '@sanu/core/operator/operator-metadata';
-import { OperatorFactory } from '@sanu/core/operator/operator-factory';
-import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
+import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
 
-@Component({
-  selector: 'app-node-shelf',
-  imports: [OperatorDefinition],
-  templateUrl: './node-shelf.html',
-  styleUrl: './node-shelf.scss'
-})
-export class NodeShelf {
+export interface ResizeConfig extends Record<string, unknown> {
 
-  private readonly operatorFactory = inject(OperatorFactory);
-  private readonly pipelineProcessor = inject(PipelineProcessor);
+  width?: number;
 
-  protected readonly operatorTypes = Object.values(OperatorType);
-
-  protected onNodeClick(operatorType: OperatorType): void {
-    const operator = this.operatorFactory.createOperator(operatorType);
-    this.pipelineProcessor.appendOperator(operator);
-  }
+  height?: number;
 
 }
+
+export const RESIZE_CONFIG_SCHEMA: OperatorConfigSchema<ResizeConfig> = {
+  width: {
+    key: 'width',
+    label: 'Width',
+    placeholder: 'Enter width in pixels',
+    required: false,
+  },
+  height: {
+    key: 'height',
+    label: 'Height',
+    placeholder: 'Enter height in pixels',
+    required: false,
+  }
+};

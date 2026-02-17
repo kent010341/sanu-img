@@ -5,21 +5,19 @@
 
     @if (imageInfo()) {
         <div class="image-info">
-            <span class="info-item">{{ imageInfo()!.width }} | {{ imageInfo()!.height }}</span>
-            <span class="info-separator">•</span>
-            <span class="info-item">{{ imageInfo()!.format }}</span>
+            <span class="info-item">{{ imageInfo()!.width }} x {{ imageInfo()!.height }}</span>
         </div>
     }
 
     <div class="drop-zone" 
          [class.dragging]="isDragging()"
-         [class.has-image]="selectedImage()"
+         [class.has-image]="hasImage()"
          (click)="openFilePicker()"
          (dragover)="onDragOver($event)"
          (dragleave)="onDragLeave($event)"
          (drop)="onDrop($event)">
-        @if (selectedImage() != null) {
-            <img [src]="selectedImage()" alt="Selected image" class="preview-image" />
+        @if (hasImage()) {
+            <canvas #canvas class="preview-image"></canvas>
         } @else {
             <div class="placeholder">
                 <lucide-icon [img]="Image" class="placeholder-icon"></lucide-icon>

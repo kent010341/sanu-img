@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2025 Kent010341
+ * Copyright (c) 2026 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,36 @@
  * SOFTWARE.
  */
 
-import { Component, inject } from '@angular/core';
-import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
+import { Injectable } from '@angular/core';
+import { ImageOperator } from '@sanu/core/operator/image-operator';
 import { OperatorType } from '@sanu/core/operator/operator-metadata';
-import { OperatorFactory } from '@sanu/core/operator/operator-factory';
-import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
+import { ResizeOperator } from '@sanu/operators/resize/resize.operator';
 
-@Component({
-  selector: 'app-node-shelf',
-  imports: [OperatorDefinition],
-  templateUrl: './node-shelf.html',
-  styleUrl: './node-shelf.scss'
+/**
+ * Factory service for creating ImageOperator instances.
+ * This factory creates operator instances (not the UI components).
+ */
+@Injectable({
+  providedIn: 'root'
 })
-export class NodeShelf {
+export class OperatorFactory {
 
-  private readonly operatorFactory = inject(OperatorFactory);
-  private readonly pipelineProcessor = inject(PipelineProcessor);
+  private readonly operatorCtors: Record<OperatorType, new () => ImageOperator> = {
+    [OperatorType.RESIZE]: ResizeOperator,
+  };
 
-  protected readonly operatorTypes = Object.values(OperatorType);
-
-  protected onNodeClick(operatorType: OperatorType): void {
-    const operator = this.operatorFactory.createOperator(operatorType);
-    this.pipelineProcessor.appendOperator(operator);
+  /**
+   * Creates a new ImageOperator instance based on the given type.
+   * @param type The type of operator to create
+   * @returns A new ImageOperator instance
+   * @throws Error if the operator type is not supported
+   */
+  createOperator(type: OperatorType): ImageOperator {
+    const Ctor = this.operatorCtors[type];
+    if (!Ctor) {
+      throw new Error(`Unsupported operator type: ${type}`);
+    }
+    return new Ctor();
   }
 
 }

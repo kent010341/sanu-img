@@ -22,21 +22,27 @@
  * SOFTWARE.
  */
 
-import { signal, WritableSignal } from "@angular/core";
-import { ImageOperator } from "@sanu/core/operator/image-operator";
-import { OperatorType } from "@sanu/core/operator/operator-metadata";
-import { generateUUID } from "@sanu/core/utils/uuid";
+/**
+ * Generate a UUID v4.
+ * Uses crypto.randomUUID() in secure contexts (localhost, 127.0.0.1, HTTPS).
+ * Falls back to Math.random() in non-secure contexts (e.g., HTTP on 192.168.x.x).
+ */
+export function generateUUID(): string {
+  // Check if we're in a secure context and crypto.randomUUID is available
+  if (
+    typeof window !== 'undefined'
+        && window.isSecureContext
+        && typeof crypto !== 'undefined'
+        && typeof crypto.randomUUID === 'function'
+  ) {
+    return crypto.randomUUID();
+  }
 
-export abstract class BaseOperator<C extends Record<string, unknown>> implements ImageOperator<C> {
-
-  abstract type: OperatorType;
-
-  readonly id = generateUUID();
-
-  readonly abstract config: WritableSignal<C>;
-
-  readonly enable = signal<boolean>(true);
-
-  abstract apply(input: ImageBitmap): Promise<ImageBitmap>;
-
+  // Fallback implementation for non-secure contexts
+  // This generates a valid UUID v4 format using Math.random()
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }

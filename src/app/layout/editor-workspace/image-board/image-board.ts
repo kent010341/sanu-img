@@ -47,7 +47,6 @@ export class ImageBoard {
   protected readonly imageInfo = signal<{
     width: number;
     height: number;
-    format: string;
   } | null>(null);
   
   protected readonly hasImage = () => this.pipelineProcessor.result() !== null;
@@ -56,6 +55,7 @@ export class ImageBoard {
     effect(() => {
       const bitmap = this.pipelineProcessor.result();
       if (!bitmap) {
+        this.imageInfo.set(null);
         return;
       }
 
@@ -70,6 +70,12 @@ export class ImageBoard {
 
       const ctx = canvas.getContext('2d')!;
       ctx.drawImage(bitmap, 0, 0);
+      
+      // Update image info with current bitmap dimensions
+      this.imageInfo.set({
+        width: bitmap.width,
+        height: bitmap.height
+      });
     });
   }
 
@@ -122,14 +128,6 @@ export class ImageBoard {
       
       // Set as source for pipeline processing
       this.pipelineProcessor.source.set(bitmap);
-      
-      // Get format from MIME type and set image info
-      const format = file.type.split('/')[1].toUpperCase();
-      this.imageInfo.set({
-        width: bitmap.width,
-        height: bitmap.height,
-        format: format
-      });
     };
     reader.readAsArrayBuffer(file);
   }

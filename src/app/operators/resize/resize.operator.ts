@@ -43,11 +43,11 @@ export class ResizeOperator extends BaseOperator<ResizeConfig> {
       // Both dimensions specified
       width = config.width;
       height = config.height;
-    } else if (config.width != null) {
+    } else if (config.width != null && config.width > 0) {
       // Only width specified, calculate height maintaining aspect ratio
       width = config.width;
       height = Math.round((input.height / input.width) * width);
-    } else if (config.height != null) {
+    } else if (config.height != null && config.height > 0) {
       // Only height specified, calculate width maintaining aspect ratio
       height = config.height;
       width = Math.round((input.width / input.height) * height);

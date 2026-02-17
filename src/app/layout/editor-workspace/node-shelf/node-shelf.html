@@ -2,7 +2,7 @@
   <h3 class="shelf-title">Operators</h3>
   <div class="node-list">
     @for (operatorType of operatorTypes; track operatorType) {
-      <app-operator-node 
+      <app-operator-definition 
         [operatorType]="operatorType"
         (nodeClick)="onNodeClick($event)"
       />

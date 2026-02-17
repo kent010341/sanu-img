@@ -23,12 +23,12 @@
  */
 
 import { Component } from '@angular/core';
-import { OperatorNode } from '@sanu/components/operator-node/operator-node';
+import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
 import { OperatorType } from '@sanu/core/operator/operator-metadata';
 
 @Component({
   selector: 'app-node-shelf',
-  imports: [OperatorNode],
+  imports: [OperatorDefinition],
   templateUrl: './node-shelf.html',
   styleUrl: './node-shelf.scss'
 })

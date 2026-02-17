@@ -27,12 +27,12 @@ import { LucideAngularModule } from 'lucide-angular';
 import { OPERATOR_METADATA, OperatorType } from '@sanu/core/operator/operator-metadata';
 
 @Component({
-  selector: 'app-operator-node',
+  selector: 'app-operator-definition',
   imports: [LucideAngularModule],
-  templateUrl: './operator-node.html',
-  styleUrl: './operator-node.scss'
+  templateUrl: './operator-definition.html',
+  styleUrl: './operator-definition.scss'
 })
-export class OperatorNode {
+export class OperatorDefinition {
 
   readonly operatorType = input.required<OperatorType>();
 

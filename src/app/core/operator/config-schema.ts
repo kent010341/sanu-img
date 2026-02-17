@@ -22,20 +22,13 @@
  * SOFTWARE.
  */
 
-import { signal, WritableSignal } from "@angular/core";
-import { ImageOperator } from "@sanu/core/operator/image-operator";
-import { OperatorType } from "@sanu/core/operator/operator-metadata";
-
-export abstract class BaseOperator<C extends Record<string, unknown>> implements ImageOperator<C> {
-
-  abstract type: OperatorType;
-
-  readonly id = crypto.randomUUID();
-
-  readonly abstract config: WritableSignal<C>;
-
-  readonly enable = signal<boolean>(true);
-
-  abstract apply(input: ImageBitmap): Promise<ImageBitmap>;
-
+export interface ConfigFieldSchema {
+  readonly key: string;
+  readonly label?: string;
+  readonly placeholder?: string;
+  readonly required?: boolean;
 }
+
+export type OperatorConfigSchema<C extends Record<string, unknown>> = {
+  readonly [K in keyof C]: ConfigFieldSchema;
+};

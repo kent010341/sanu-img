@@ -35,13 +35,33 @@ export class ResizeOperator extends BaseOperator<ResizeConfig> {
 
   override async apply(input: ImageBitmap): Promise<ImageBitmap> {
     const config = this.config();
-    const width = config.width ?? input.width;
-    const height = config.height ?? input.height;
+    
+    let width: number;
+    let height: number;
+    
+    if (config.width != null && config.height != null) {
+      // Both dimensions specified
+      width = config.width;
+      height = config.height;
+    } else if (config.width != null) {
+      // Only width specified, calculate height maintaining aspect ratio
+      width = config.width;
+      height = Math.round((input.height / input.width) * width);
+    } else if (config.height != null) {
+      // Only height specified, calculate width maintaining aspect ratio
+      height = config.height;
+      width = Math.round((input.width / input.height) * height);
+    } else {
+      // Neither specified, keep original dimensions (noop)
+      return input;
+    }
 
-    const canvas = new OffscreenCanvas(
-      width,
-      height
-    );
+    // If calculated dimensions match input, skip processing (noop)
+    if (width === input.width && height === input.height) {
+      return input;
+    }
+
+    const canvas = new OffscreenCanvas(width, height);
 
     const ctx = canvas.getContext('2d')!;
     ctx.drawImage(input, 0, 0, width, height);

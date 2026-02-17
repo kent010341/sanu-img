@@ -23,6 +23,8 @@
  */
 
 import { LucideIconData, Move } from "lucide-angular";
+import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
+import { RESIZE_CONFIG_SCHEMA } from "@sanu/operators/resize/resize.config";
 
 export enum OperatorType {
 
@@ -38,6 +40,8 @@ export interface OperatorMetadata {
 
   readonly icon: LucideIconData;
 
+  readonly configSchema: OperatorConfigSchema<Record<string, unknown>>;
+
 }
 
 export const OPERATOR_METADATA: Record<OperatorType, OperatorMetadata> = {
@@ -46,6 +50,7 @@ export const OPERATOR_METADATA: Record<OperatorType, OperatorMetadata> = {
     type: OperatorType.RESIZE,
     label: 'Resize',
     icon: Move,
+    configSchema: RESIZE_CONFIG_SCHEMA,
   },
 
 };

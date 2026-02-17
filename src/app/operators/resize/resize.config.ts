@@ -22,10 +22,27 @@
  * SOFTWARE.
  */
 
-export interface ResizeConfig {
+import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
+
+export interface ResizeConfig extends Record<string, unknown> {
 
   width?: number;
 
   height?: number;
 
 }
+
+export const RESIZE_CONFIG_SCHEMA: OperatorConfigSchema<ResizeConfig> = {
+  width: {
+    key: 'width',
+    label: 'Width',
+    placeholder: 'Enter width in pixels',
+    required: false,
+  },
+  height: {
+    key: 'height',
+    label: 'Height',
+    placeholder: 'Enter height in pixels',
+    required: false,
+  }
+};

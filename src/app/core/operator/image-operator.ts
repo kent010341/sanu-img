@@ -25,7 +25,7 @@
 import { WritableSignal } from "@angular/core";
 import { OperatorType } from "@sanu/core/operator/operator-metadata";
 
-export interface ImageOperator<C = unknown> {
+export interface ImageOperator<C extends Record<string, unknown> = Record<string, unknown>> {
 
   readonly id: string;
 

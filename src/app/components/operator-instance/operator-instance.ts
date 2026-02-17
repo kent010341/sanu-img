@@ -26,11 +26,11 @@ import { Component, computed, input } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { ImageOperator } from '@sanu/core/operator/image-operator';
 import { OPERATOR_METADATA } from '@sanu/core/operator/operator-metadata';
-import { JsonPipe } from '@angular/common';
+import { ConfigFieldSchema } from '@sanu/core/operator/config-schema';
 
 @Component({
   selector: 'app-operator-instance',
-  imports: [LucideAngularModule, JsonPipe],
+  imports: [LucideAngularModule],
   templateUrl: './operator-instance.html',
   styleUrl: './operator-instance.scss'
 })
@@ -50,5 +50,28 @@ export class OperatorInstance {
   protected readonly enabled = computed(() => {
     return this.operator().enable();
   });
+
+  protected readonly configFields = computed(() => {
+    const schema = this.metadata().configSchema;
+    return Object.values(schema) as ConfigFieldSchema[];
+  });
+
+  protected getValue(key: string): unknown {
+    const config = this.config();
+    return config[key];
+  }
+
+  protected updateConfig(key: string, value: string): void {
+    const operator = this.operator();
+    const currentConfig = operator.config();
+    
+    const numValue = Number(value);
+    const parsedValue = value === '' || isNaN(numValue) ? null : numValue;
+    
+    operator.config.set({
+      ...currentConfig,
+      [key]: parsedValue
+    });
+  }
 
 }

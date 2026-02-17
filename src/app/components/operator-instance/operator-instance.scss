@@ -65,14 +65,57 @@
       padding: 8px;
       background-color: rgba(0, 0, 0, 0.2);
       border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       
-      pre {
-        margin: 0;
-        font-size: 11px;
-        font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
-        color: #aaaaaa;
-        white-space: pre-wrap;
-        word-break: break-all;
+      .config-field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        
+        .config-label {
+          font-size: 11px;
+          font-weight: 500;
+          color: #cccccc;
+          
+          .required-mark {
+            color: #ff6b6b;
+            margin-left: 2px;
+          }
+        }
+        
+        .config-input {
+          padding: 6px 8px;
+          background-color: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+          color: #ffffff;
+          font-size: 12px;
+          font-family: inherit;
+          transition: all 0.2s ease;
+          
+          &:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+          }
+          
+          &[type="number"] {
+            appearance: textfield;
+            
+            &::-webkit-inner-spin-button,
+            &::-webkit-outer-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+          }
+          
+          &::placeholder {
+            color: #666666;
+            font-size: 11px;
+          }
+        }
       }
     }
   }

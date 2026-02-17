@@ -22,7 +22,8 @@
  * SOFTWARE.
  */
 
-import { Component, ElementRef, signal, viewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
 import { LucideAngularModule, Upload, Image as ImageIcon } from 'lucide-angular';
 
 @Component({
@@ -33,18 +34,44 @@ import { LucideAngularModule, Upload, Image as ImageIcon } from 'lucide-angular'
 })
 export class ImageBoard {
 
+  private readonly pipelineProcessor = inject(PipelineProcessor);
+
   protected readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');
+
+  protected readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
   
   protected readonly Upload = Upload;
   protected readonly Image = ImageIcon;
   
-  protected readonly selectedImage = signal<string | null>(null);
   protected readonly isDragging = signal(false);
   protected readonly imageInfo = signal<{
     width: number;
     height: number;
     format: string;
   } | null>(null);
+  
+  protected readonly hasImage = () => this.pipelineProcessor.result() !== null;
+
+  constructor() {
+    effect(() => {
+      const bitmap = this.pipelineProcessor.result();
+      if (!bitmap) {
+        return;
+      }
+
+      const canvasRef = this.canvas();
+      if (!canvasRef) {
+        return;
+      }
+
+      const canvas = canvasRef.nativeElement;
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+
+      const ctx = canvas.getContext('2d')!;
+      ctx.drawImage(bitmap, 0, 0);
+    });
+  }
 
   protected onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -84,24 +111,26 @@ export class ImageBoard {
 
   private loadImage(file: File): void {
     const reader = new FileReader();
-    reader.onload = (e) => {
-      const dataUrl = e.target?.result as string;
-      this.selectedImage.set(dataUrl);
+    reader.onload = async (e) => {
+      const arrayBuffer = e.target?.result as ArrayBuffer;
       
-      // Get image dimensions
-      const img = new Image();
-      img.onload = () => {
-        // Get format from MIME type
-        const format = file.type.split('/')[1].toUpperCase();
-        
-        this.imageInfo.set({
-          width: img.width,
-          height: img.height,
-          format: format
-        });
-      };
-      img.src = dataUrl;
+      // Create a Blob from the ArrayBuffer
+      const blob = new Blob([arrayBuffer], { type: file.type });
+      
+      // Convert to ImageBitmap
+      const bitmap = await createImageBitmap(blob);
+      
+      // Set as source for pipeline processing
+      this.pipelineProcessor.source.set(bitmap);
+      
+      // Get format from MIME type and set image info
+      const format = file.type.split('/')[1].toUpperCase();
+      this.imageInfo.set({
+        width: bitmap.width,
+        height: bitmap.height,
+        format: format
+      });
     };
-    reader.readAsDataURL(file);
+    reader.readAsArrayBuffer(file);
   }
 }

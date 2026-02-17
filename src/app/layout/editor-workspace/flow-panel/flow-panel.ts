@@ -22,14 +22,20 @@
  * SOFTWARE.
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { OperatorInstance } from '@sanu/components/operator-instance/operator-instance';
+import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
 
 @Component({
   selector: 'app-flow-panel',
-  imports: [],
+  imports: [OperatorInstance],
   templateUrl: './flow-panel.html',
   styleUrl: './flow-panel.scss'
 })
 export class FlowPanel {
+
+  private readonly pipelineProcessor = inject(PipelineProcessor);
+
+  protected readonly operators = this.pipelineProcessor.operators;
 
 }

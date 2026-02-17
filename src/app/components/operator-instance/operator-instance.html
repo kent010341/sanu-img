@@ -1,1 +1,14 @@
-<p>operator-instance works!</p>
+<div class="operator-instance" [class.disabled]="!enabled()">
+  <div class="instance-glow"></div>
+  <div class="instance-content">
+    <div class="instance-header">
+      <div class="instance-icon">
+        <lucide-icon [img]="metadata().icon" [size]="24"></lucide-icon>
+      </div>
+      <div class="instance-label">{{ metadata().label }}</div>
+    </div>
+    <div class="instance-config">
+      <pre>{{ config() | json }}</pre>
+    </div>
+  </div>
+</div>

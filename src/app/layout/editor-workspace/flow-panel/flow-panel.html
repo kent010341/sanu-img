@@ -1,0 +1,16 @@
+<div class="flow-panel">
+  <h3 class="panel-title">Pipeline Flow</h3>
+  <div class="operator-list">
+    @for (operator of operators(); track operator.id) {
+      <app-operator-instance 
+        [operator]="operator"
+      />
+    }
+    @empty {
+      <div class="empty-state">
+        <p>No operators in pipeline</p>
+        <p class="hint">Click an operator from the shelf to add it</p>
+      </div>
+    }
+  </div>
+</div>

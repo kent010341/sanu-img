@@ -22,14 +22,33 @@
  * SOFTWARE.
  */
 
-import { Component } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
+import { LucideAngularModule } from 'lucide-angular';
+import { ImageOperator } from '@sanu/core/operator/image-operator';
+import { OPERATOR_METADATA } from '@sanu/core/operator/operator-metadata';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-operator-instance',
-  imports: [],
+  imports: [LucideAngularModule, JsonPipe],
   templateUrl: './operator-instance.html',
   styleUrl: './operator-instance.scss'
 })
 export class OperatorInstance {
+
+  readonly operator = input.required<ImageOperator>();
+
+  protected readonly metadata = computed(() => {
+    const op = this.operator();
+    return OPERATOR_METADATA[op.type];
+  });
+
+  protected readonly config = computed(() => {
+    return this.operator().config();
+  });
+
+  protected readonly enabled = computed(() => {
+    return this.operator().enable();
+  });
 
 }

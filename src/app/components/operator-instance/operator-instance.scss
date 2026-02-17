@@ -1,0 +1,109 @@
+.operator-instance {
+  position: relative;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  background-color: #2a2a2a;
+  
+  .instance-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .instance-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1;
+    
+    .instance-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+      .instance-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        background-color: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        
+        lucide-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      
+      .instance-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #ffffff;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      }
+    }
+    
+    .instance-config {
+      padding: 8px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      
+      pre {
+        margin: 0;
+        font-size: 11px;
+        font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+        color: #aaaaaa;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+    }
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    
+    .instance-glow {
+      opacity: 1;
+    }
+    
+    .instance-content .instance-header .instance-icon {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    
+    .instance-glow {
+      opacity: 0.7;
+    }
+  }
+  
+  &.disabled {
+    opacity: 0.5;
+    
+    .instance-content .instance-header .instance-icon {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #888888;
+    }
+  }
+}

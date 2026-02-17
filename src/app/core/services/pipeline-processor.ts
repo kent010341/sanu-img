@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2026 Kent010341
+ * Copyright (c) 2025 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,35 @@
  * SOFTWARE.
  */
 
-import { Component,  computed,  input, output } from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
-import { OPERATOR_METADATA, OperatorType } from '@sanu/core/operator/operator-metadata';
+import { effect, Injectable, signal } from "@angular/core";
+import { ImageOperator } from "@sanu/core/operator/image-operator";
+import { ImagePipeline } from "@sanu/core/pipeline/image-pipeline";
 
-@Component({
-  selector: 'app-operator-node',
-  imports: [LucideAngularModule],
-  templateUrl: './operator-node.html',
-  styleUrl: './operator-node.scss'
+@Injectable({
+  providedIn: "root"
 })
-export class OperatorNode {
+export class PipelineProcessor {
 
-  readonly operatorType = input.required<OperatorType>();
+  readonly source = signal<ImageBitmap | null>(null);
 
-  readonly nodeClick = output<OperatorType>();
+  readonly operators = signal<ImageOperator[]>([]);
 
-  protected readonly metadata = computed(() => {
-    const opType = this.operatorType();
-    return OPERATOR_METADATA[opType];
-  });
+  readonly result = signal<ImageBitmap | null>(null);
 
-  protected onClick(): void {
-    this.nodeClick.emit(this.operatorType());
+  private readonly pipeline = new ImagePipeline();
+
+  constructor() {
+    effect(async () => {
+      const src = this.source();
+      const ops = this.operators();
+
+      if (src == null) {
+        return;
+      }
+
+      const result = await this.pipeline.process(src, ops);
+      this.result.set(result);
+    });
   }
 
 }

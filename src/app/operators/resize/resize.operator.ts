@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2026 Kent010341
+ * Copyright (c) 2025 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,31 @@
  * SOFTWARE.
  */
 
-import { Component,  computed,  input, output } from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
-import { OPERATOR_METADATA, OperatorType } from '@sanu/core/operator/operator-metadata';
+import { signal } from "@angular/core";
+import { BaseOperator } from "@sanu/core/operator/base-operator";
+import { OperatorType } from "@sanu/core/operator/operator-metadata";
+import { ResizeConfig } from "@sanu/operators/resize/resize.config";
 
-@Component({
-  selector: 'app-operator-node',
-  imports: [LucideAngularModule],
-  templateUrl: './operator-node.html',
-  styleUrl: './operator-node.scss'
-})
-export class OperatorNode {
+export class ResizeOperator extends BaseOperator<ResizeConfig> {
 
-  readonly operatorType = input.required<OperatorType>();
+  override type: OperatorType = OperatorType.RESIZE;
 
-  readonly nodeClick = output<OperatorType>();
+  override config = signal<ResizeConfig>({});
 
-  protected readonly metadata = computed(() => {
-    const opType = this.operatorType();
-    return OPERATOR_METADATA[opType];
-  });
+  override async apply(input: ImageBitmap): Promise<ImageBitmap> {
+    const config = this.config();
+    const width = config.width ?? input.width;
+    const height = config.height ?? input.height;
 
-  protected onClick(): void {
-    this.nodeClick.emit(this.operatorType());
+    const canvas = new OffscreenCanvas(
+      width,
+      height
+    );
+
+    const ctx = canvas.getContext('2d')!;
+    ctx.drawImage(input, 0, 0, width, height);
+
+    return createImageBitmap(canvas);
   }
 
 }

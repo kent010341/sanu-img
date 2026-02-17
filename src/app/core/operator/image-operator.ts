@@ -22,29 +22,19 @@
  * SOFTWARE.
  */
 
-import { Component,  computed,  input, output } from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
-import { OPERATOR_METADATA, OperatorType } from '@sanu/core/operator/operator-metadata';
+import { WritableSignal } from "@angular/core";
+import { OperatorType } from "@sanu/core/operator/operator-metadata";
 
-@Component({
-  selector: 'app-operator-node',
-  imports: [LucideAngularModule],
-  templateUrl: './operator-node.html',
-  styleUrl: './operator-node.scss'
-})
-export class OperatorNode {
+export interface ImageOperator<C = unknown> {
 
-  readonly operatorType = input.required<OperatorType>();
+  readonly id: string;
 
-  readonly nodeClick = output<OperatorType>();
+  readonly type: OperatorType;
 
-  protected readonly metadata = computed(() => {
-    const opType = this.operatorType();
-    return OPERATOR_METADATA[opType];
-  });
+  readonly config: WritableSignal<C>;
 
-  protected onClick(): void {
-    this.nodeClick.emit(this.operatorType());
-  }
+  readonly enable: WritableSignal<boolean>;
+
+  apply(input: ImageBitmap): Promise<ImageBitmap>;
 
 }

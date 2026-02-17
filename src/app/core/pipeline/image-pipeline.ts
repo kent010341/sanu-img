@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2026 Kent010341
+ * Copyright (c) 2025 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,22 @@
  * SOFTWARE.
  */
 
-import { Component,  computed,  input, output } from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
-import { OPERATOR_METADATA, OperatorType } from '@sanu/core/operator/operator-metadata';
+import { ImageOperator } from "@sanu/core/operator/image-operator";
 
-@Component({
-  selector: 'app-operator-node',
-  imports: [LucideAngularModule],
-  templateUrl: './operator-node.html',
-  styleUrl: './operator-node.scss'
-})
-export class OperatorNode {
+export class ImagePipeline {
 
-  readonly operatorType = input.required<OperatorType>();
+    async process(source: ImageBitmap, operators: ImageOperator[]): Promise<ImageBitmap> {
 
-  readonly nodeClick = output<OperatorType>();
+        let current = source;
 
-  protected readonly metadata = computed(() => {
-    const opType = this.operatorType();
-    return OPERATOR_METADATA[opType];
-  });
+        for (const op of operators) {
+        if (!op.enable()) {
+            continue;
+        }
+        current = await op.apply(current);
+        }
 
-  protected onClick(): void {
-    this.nodeClick.emit(this.operatorType());
-  }
+        return current;
+    }
 
 }

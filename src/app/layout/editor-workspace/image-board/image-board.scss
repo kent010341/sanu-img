@@ -11,12 +11,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 8px 0;
   gap: 8px;
 }
 
 .image-info {
-  width: 100%;
+  width: calc(100% - 16px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,7 +37,7 @@
 }
 
 .drop-zone {
-  width: 100%;
+  width: calc(100% - 16px);
   flex: 1;
   min-height: 0;
   border: 2px dashed #3f3f46;

@@ -6,10 +6,11 @@ $color-bg-dark-gradient-mid: #2c2c2c;
 $color-border-gray: #3c3c3c;
 
 .editor-workspace {
-  height: 100vh;
+  height: 100%;
   background: linear-gradient(to bottom, $color-bg-dark-primary, $color-bg-dark-gradient-mid, $color-bg-dark-secondary);
   padding: 1rem;
   color: $color-text-light;
+  box-sizing: border-box;
 }
 
 .editor-workspace-content {

@@ -53,4 +53,8 @@ export class PipelineProcessor {
     });
   }
 
+  appendOperator(operator: ImageOperator): void {
+    this.operators.update(ops => [...ops, operator]);
+  }
+
 }

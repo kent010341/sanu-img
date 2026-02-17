@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-import { Component, computed, input } from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
+import { Component, computed, inject, input } from '@angular/core';
+import { LucideAngularModule, Eye, EyeOff, Trash2 } from 'lucide-angular';
 import { ImageOperator } from '@sanu/core/operator/image-operator';
 import { OPERATOR_METADATA } from '@sanu/core/operator/operator-metadata';
 import { ConfigFieldSchema } from '@sanu/core/operator/config-schema';
+import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
 
 @Component({
   selector: 'app-operator-instance',
@@ -36,7 +37,13 @@ import { ConfigFieldSchema } from '@sanu/core/operator/config-schema';
 })
 export class OperatorInstance {
 
+  private readonly pipelineProcessor = inject(PipelineProcessor);
+
   readonly operator = input.required<ImageOperator>();
+
+  protected readonly Eye = Eye;
+  protected readonly EyeOff = EyeOff;
+  protected readonly Trash2 = Trash2;
 
   protected readonly metadata = computed(() => {
     const op = this.operator();
@@ -72,6 +79,16 @@ export class OperatorInstance {
       ...currentConfig,
       [key]: parsedValue
     });
+  }
+
+  protected toggleEnable(): void {
+    const operator = this.operator();
+    operator.enable.set(!operator.enable());
+  }
+
+  protected remove(): void {
+    const operator = this.operator();
+    this.pipelineProcessor.removeOperator(operator.id);
   }
 
 }

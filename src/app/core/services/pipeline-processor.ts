@@ -57,4 +57,8 @@ export class PipelineProcessor {
     this.operators.update(ops => [...ops, operator]);
   }
 
+  removeOperator(operatorId: string): void {
+    this.operators.update(ops => ops.filter(op => op.id !== operatorId));
+  }
+
 }

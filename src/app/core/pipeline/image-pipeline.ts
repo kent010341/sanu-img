@@ -26,18 +26,18 @@ import { ImageOperator } from "@sanu/core/operator/image-operator";
 
 export class ImagePipeline {
 
-    async process(source: ImageBitmap, operators: ImageOperator[]): Promise<ImageBitmap> {
+  async process(source: ImageBitmap, operators: ImageOperator[]): Promise<ImageBitmap> {
 
-        let current = source;
+    let current = source;
 
-        for (const op of operators) {
-        if (!op.enable()) {
-            continue;
-        }
-        current = await op.apply(current);
-        }
-
-        return current;
+    for (const op of operators) {
+      if (!op.enable()) {
+        continue;
+      }
+      current = await op.apply(current);
     }
+
+    return current;
+  }
 
 }

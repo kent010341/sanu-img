@@ -42,23 +42,27 @@ export const CROP_CONFIG_SCHEMA: OperatorConfigSchema<CropConfig> = {
     label: 'Left',
     placeholder: 'Enter left crop in pixels',
     required: false,
+    type: 'number',
   },
   right: {
     key: 'right',
     label: 'Right',
     placeholder: 'Enter right crop in pixels',
     required: false,
+    type: 'number',
   },
   top: {
     key: 'top',
     label: 'Top',
     placeholder: 'Enter top crop in pixels',
     required: false,
+    type: 'number',
   },
   bottom: {
     key: 'bottom',
     label: 'Bottom',
     placeholder: 'Enter bottom crop in pixels',
     required: false,
+    type: 'number',
   }
 };

@@ -26,11 +26,11 @@
               }
             </label>
             <input 
-              type="number"
+              [type]="field.type"
               class="config-input"
               [value]="getValue(field.key) ?? ''"
               [placeholder]="field.placeholder || ''"
-              (input)="updateConfig(field.key, $any($event.target).value)"
+              (input)="updateConfig(field.key, $any($event.target).value, field.type)"
             />
           </div>
         }

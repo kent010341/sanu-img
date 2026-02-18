@@ -27,6 +27,7 @@ export interface ConfigFieldSchema {
   readonly label?: string;
   readonly placeholder?: string;
   readonly required?: boolean;
+  readonly type: 'number' | 'text';
 }
 
 export type OperatorConfigSchema<C extends Record<string, unknown>> = {

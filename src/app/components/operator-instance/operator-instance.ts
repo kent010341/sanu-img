@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, model } from '@angular/core';
 import { LucideAngularModule, Eye, EyeOff, Trash2 } from 'lucide-angular';
 import { ImageOperator } from '@sanu/core/operator/image-operator';
 import { OPERATOR_METADATA } from '@sanu/core/operator/operator-metadata';
@@ -39,7 +39,7 @@ export class OperatorInstance {
 
   private readonly pipelineProcessor = inject(PipelineProcessor);
 
-  readonly operator = input.required<ImageOperator>();
+  readonly operator = model.required<ImageOperator>();
 
   protected readonly Eye = Eye;
   protected readonly EyeOff = EyeOff;
@@ -51,11 +51,11 @@ export class OperatorInstance {
   });
 
   protected readonly config = computed(() => {
-    return this.operator().config();
+    return this.operator().config;
   });
 
   protected readonly enabled = computed(() => {
-    return this.operator().enable();
+    return this.operator().enable;
   });
 
   protected readonly configFields = computed(() => {
@@ -69,29 +69,32 @@ export class OperatorInstance {
   }
 
   protected updateConfig(key: string, value: string, type: 'number' | 'text'): void {
-    const operator = this.operator();
-    const currentConfig = operator.config();
-    
-    let parsedValue: unknown;
-    
-    if (type === 'text') {
-      // For text fields, use the string value directly (null if empty)
-      parsedValue = value === '' ? null : value;
-    } else if (type === 'number') {
-      // For number fields, parse as number
-      const numValue = Number(value);
-      parsedValue = value === '' || isNaN(numValue) ? null : numValue;
-    }
-    
-    operator.config.set({
-      ...currentConfig,
-      [key]: parsedValue
+    this.operator.update(op => {
+      const currentConfig = op.config;
+      
+      let parsedValue: unknown;
+      
+      if (type === 'text') {
+        // For text fields, use the string value directly (null if empty)
+        parsedValue = value === '' ? null : value;
+      } else if (type === 'number') {
+        // For number fields, parse as number
+        const numValue = Number(value);
+        parsedValue = value === '' || isNaN(numValue) ? null : numValue;
+      }
+
+      return {
+        ...op,
+        config: {
+          ...currentConfig,
+          [key]: parsedValue
+        }
+      };
     });
   }
 
   protected toggleEnable(): void {
-    const operator = this.operator();
-    operator.enable.set(!operator.enable());
+    this.operator.update(op => ({ ...op, enable: !op.enable }));
   }
 
   protected remove(): void {

@@ -22,9 +22,11 @@
  * SOFTWARE.
  */
 
-import { effect, Injectable, signal } from "@angular/core";
+import { Injectable, Signal, signal } from "@angular/core";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { ImageOperator } from "@sanu/core/operator/image-operator";
 import { ImagePipeline } from "@sanu/core/pipeline/image-pipeline";
+import { combineLatest, from, switchMap } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -35,22 +37,25 @@ export class PipelineProcessor {
 
   readonly operators = signal<ImageOperator[]>([]);
 
-  readonly result = signal<ImageBitmap | null>(null);
+  readonly result: Signal<ImageBitmap | null>;
 
   private readonly pipeline = new ImagePipeline();
 
+  private readonly source$ = toObservable(this.source);
+
+  private readonly operators$ = toObservable(this.operators);
+
   constructor() {
-    effect(async () => {
-      const src = this.source();
-      const ops = this.operators();
+    const input$ = combineLatest([this.source$, this.operators$]).pipe(
+      switchMap(([src, ops]) => {
+        if (src == null) {
+          return [null];
+        }
+        return from(this.pipeline.process(src, ops));
+      })
+    );
 
-      if (src == null) {
-        return;
-      }
-
-      const result = await this.pipeline.process(src, ops);
-      this.result.set(result);
-    });
+    this.result = toSignal(input$, { initialValue: null });
   }
 
   appendOperator(operator: ImageOperator): void {

@@ -22,14 +22,45 @@
  * SOFTWARE.
  */
 
-import { BaseOperator } from "@sanu/core/operator/base-operator";
-import { OperatorType } from "@sanu/core/operator/operator-metadata";
 import { ResizeConfig } from "@sanu/operators/resize/resize.config";
 
-export class ResizeOperator extends BaseOperator<ResizeConfig> {
+export async function applyResize(
+  input: ImageBitmap,
+  config: ResizeConfig,
+  enabled: boolean
+): Promise<ImageBitmap> {
+  if (!enabled) {
+    return input;
+  }
 
-  override type: OperatorType = OperatorType.RESIZE;
+  let width: number;
+  let height: number;
 
-  override config: ResizeConfig = {};
+  if (config.width != null && config.height != null) {
+    // Both dimensions specified
+    width = config.width;
+    height = config.height;
+  } else if (config.width != null && config.width > 0) {
+    // Only width specified, calculate height maintaining aspect ratio
+    width = config.width;
+    height = Math.round((input.height / input.width) * width);
+  } else if (config.height != null && config.height > 0) {
+    // Only height specified, calculate width maintaining aspect ratio
+    height = config.height;
+    width = Math.round((input.width / input.height) * height);
+  } else {
+    // Neither specified, keep original dimensions (noop)
+    return input;
+  }
 
+  // If calculated dimensions match input, skip processing (noop)
+  if (width === input.width && height === input.height) {
+    return input;
+  }
+
+  const canvas = new OffscreenCanvas(width, height);
+  const ctx = canvas.getContext('2d')!;
+  ctx.drawImage(input, 0, 0, width, height);
+
+  return createImageBitmap(canvas);
 }

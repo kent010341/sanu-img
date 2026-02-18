@@ -22,17 +22,41 @@
  * SOFTWARE.
  */
 
-import { OperatorType } from "@sanu/core/operator/operator-metadata";
-import { ConfigType } from "@sanu/core/utils/types";
+import { CropConfig } from "@sanu/operators/crop/crop.config";
 
-export interface ImageOperator<C extends ConfigType = ConfigType> {
+export async function applyCrop(
+  input: ImageBitmap,
+  config: CropConfig,
+  enabled: boolean
+): Promise<ImageBitmap> {
+  if (!enabled) {
+    return input;
+  }
 
-  readonly id: string;
+  const left = config.left ?? 0;
+  const right = config.right ?? 0;
+  const top = config.top ?? 0;
+  const bottom = config.bottom ?? 0;
 
-  readonly type: OperatorType;
+  // If no cropping is specified, return input as-is (noop)
+  if (left === 0 && right === 0 && top === 0 && bottom === 0) {
+    return input;
+  }
 
-  config: C;
+  // Calculate new dimensions
+  const width = input.width - left - right;
+  const height = input.height - top - bottom;
 
-  readonly enable: boolean;
+  // Validate that dimensions are positive. If not, return input as-is (noop)
+  if (width <= 0 || height <= 0) {
+    return input;
+  }
 
+  const canvas = new OffscreenCanvas(width, height);
+  const ctx = canvas.getContext('2d')!;
+
+  // Draw the cropped portion of the image
+  ctx.drawImage(input, left, top, width, height, 0, 0, width, height);
+
+  return createImageBitmap(canvas);
 }

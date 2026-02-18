@@ -31,6 +31,7 @@ import { TrimOperator } from '@sanu/operators/trim/trim.operator';
 import { ExpandOperator } from '@sanu/operators/expand/expand.operator';
 import { FillOperator } from '@sanu/operators/fill/fill.operator';
 import { FlipOperator } from '@sanu/operators/flip/flip.operator';
+import { RollOperator } from '@sanu/operators/roll/roll.operator';
 
 /**
  * Factory service for creating ImageOperator instances.
@@ -48,6 +49,7 @@ export class OperatorFactory {
     [OperatorType.EXPAND]: ExpandOperator,
     [OperatorType.FILL]: FillOperator,
     [OperatorType.FLIP]: FlipOperator,
+    [OperatorType.ROLL]: RollOperator,
   };
 
   /**

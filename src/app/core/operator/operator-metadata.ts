@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import { LucideIconData, Move, Crop, Scissors, Maximize2, Paintbrush, FlipHorizontal2 } from "lucide-angular";
+import { LucideIconData, Move, Crop, Scissors, Maximize2, Paintbrush, FlipHorizontal2, RotateCw } from "lucide-angular";
 import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
 import { RESIZE_CONFIG_SCHEMA } from "@sanu/operators/resize/resize.config";
 import { CROP_CONFIG_SCHEMA } from "@sanu/operators/crop/crop.config";
@@ -30,6 +30,7 @@ import { TRIM_CONFIG_SCHEMA } from "@sanu/operators/trim/trim.config";
 import { EXPAND_CONFIG_SCHEMA } from "@sanu/operators/expand/expand.config";
 import { FILL_CONFIG_SCHEMA } from "@sanu/operators/fill/fill.config";
 import { FLIP_CONFIG_SCHEMA } from "@sanu/operators/flip/flip.config";
+import { ROLL_CONFIG_SCHEMA } from "@sanu/operators/roll/roll.config";
 
 export enum OperatorType {
 
@@ -44,6 +45,8 @@ export enum OperatorType {
   FILL = 'FILL',
 
   FLIP = 'FLIP',
+
+  ROLL = 'ROLL',
 
 }
 
@@ -101,6 +104,13 @@ export const OPERATOR_METADATA: Record<OperatorType, OperatorMetadata> = {
     label: 'Flip',
     icon: FlipHorizontal2,
     configSchema: FLIP_CONFIG_SCHEMA,
+  },
+
+  [OperatorType.ROLL]: {
+    type: OperatorType.ROLL,
+    label: 'Roll',
+    icon: RotateCw,
+    configSchema: ROLL_CONFIG_SCHEMA,
   },
 
 };

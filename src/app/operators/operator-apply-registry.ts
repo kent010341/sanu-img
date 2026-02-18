@@ -29,6 +29,7 @@ import { applyExpand } from "@sanu/operators/expand/expand.apply";
 import { applyTrim } from "@sanu/operators/trim/trim.apply";
 import { applyFill } from "@sanu/operators/fill/fill.apply";
 import { applyFlip } from "@sanu/operators/flip/flip.apply";
+import { applyRoll } from "@sanu/operators/roll/roll.apply";
 import { ConfigType } from "@sanu/core/utils/types";
 
 /**
@@ -50,6 +51,7 @@ export const OPERATOR_APPLY_REGISTRY: Record<OperatorType, OperatorApplyFn> = {
   [OperatorType.TRIM]: applyTrim,
   [OperatorType.FILL]: applyFill,
   [OperatorType.FLIP]: applyFlip,
+  [OperatorType.ROLL]: applyRoll,
 };
 
 /**

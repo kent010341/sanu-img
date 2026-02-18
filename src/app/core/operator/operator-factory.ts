@@ -26,6 +26,7 @@ import { Injectable } from '@angular/core';
 import { ImageOperator } from '@sanu/core/operator/image-operator';
 import { OperatorType } from '@sanu/core/operator/operator-metadata';
 import { ResizeOperator } from '@sanu/operators/resize/resize.operator';
+import { CropOperator } from '@sanu/operators/crop/crop.operator';
 
 /**
  * Factory service for creating ImageOperator instances.
@@ -38,6 +39,7 @@ export class OperatorFactory {
 
   private readonly operatorCtors: Record<OperatorType, new () => ImageOperator> = {
     [OperatorType.RESIZE]: ResizeOperator,
+    [OperatorType.CROP]: CropOperator,
   };
 
   /**

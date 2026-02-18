@@ -17,7 +17,9 @@
          (dragleave)="onDragLeave($event)"
          (drop)="onDrop($event)">
         @if (hasImage()) {
-            <canvas #canvas class="preview-image"></canvas>
+            <div class="canvas-wrapper">
+                <canvas #canvas class="preview-image"></canvas>
+            </div>
         } @else {
             <div class="placeholder">
                 <lucide-icon [img]="Image" class="placeholder-icon"></lucide-icon>

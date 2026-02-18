@@ -22,45 +22,43 @@
  * SOFTWARE.
  */
 
-import { LucideIconData, Move, Crop } from "lucide-angular";
 import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
-import { RESIZE_CONFIG_SCHEMA } from "@sanu/operators/resize/resize.config";
-import { CROP_CONFIG_SCHEMA } from "@sanu/operators/crop/crop.config";
 
-export enum OperatorType {
+export interface CropConfig extends Record<string, unknown> {
 
-  RESIZE = 'RESIZE',
+  left?: number;
 
-  CROP = 'CROP',
+  right?: number;
 
-}
+  top?: number;
 
-export interface OperatorMetadata {
-
-  readonly type: OperatorType;
-
-  readonly label: string;
-
-  readonly icon: LucideIconData;
-
-  readonly configSchema: OperatorConfigSchema<Record<string, unknown>>;
+  bottom?: number;
 
 }
 
-export const OPERATOR_METADATA: Record<OperatorType, OperatorMetadata> = {
-
-  [OperatorType.RESIZE]: {
-    type: OperatorType.RESIZE,
-    label: 'Resize',
-    icon: Move,
-    configSchema: RESIZE_CONFIG_SCHEMA,
+export const CROP_CONFIG_SCHEMA: OperatorConfigSchema<CropConfig> = {
+  left: {
+    key: 'left',
+    label: 'Left',
+    placeholder: 'Enter left crop in pixels',
+    required: false,
   },
-
-  [OperatorType.CROP]: {
-    type: OperatorType.CROP,
-    label: 'Crop',
-    icon: Crop,
-    configSchema: CROP_CONFIG_SCHEMA,
+  right: {
+    key: 'right',
+    label: 'Right',
+    placeholder: 'Enter right crop in pixels',
+    required: false,
   },
-
+  top: {
+    key: 'top',
+    label: 'Top',
+    placeholder: 'Enter top crop in pixels',
+    required: false,
+  },
+  bottom: {
+    key: 'bottom',
+    label: 'Bottom',
+    placeholder: 'Enter bottom crop in pixels',
+    required: false,
+  }
 };

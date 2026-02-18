@@ -41,7 +41,6 @@
   flex: 1;
   min-height: 0;
   border: 2px dashed #3f3f46;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,10 +68,24 @@
   }
 }
 
-.preview-image {
+.canvas-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain;
+  background-color: #404040;
+  background-image:
+    linear-gradient(45deg, #4a4a4a 25%, transparent 25%, transparent 75%, #4a4a4a 75%),
+    linear-gradient(45deg, #4a4a4a 25%, transparent 25%, transparent 75%, #4a4a4a 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.preview-image {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
   pointer-events: none;
 }
 

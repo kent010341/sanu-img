@@ -24,7 +24,7 @@
 
 import { Component, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
-import { LucideAngularModule, Upload, Image as ImageIcon } from 'lucide-angular';
+import { LucideAngularModule, Upload, Download, Image as ImageIcon } from 'lucide-angular';
 
 @Component({
   selector: 'app-image-board',
@@ -41,6 +41,7 @@ export class ImageBoard {
   protected readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
   
   protected readonly Upload = Upload;
+  protected readonly Download = Download;
   protected readonly Image = ImageIcon;
   
   protected readonly isDragging = signal(false);
@@ -48,6 +49,8 @@ export class ImageBoard {
     width: number;
     height: number;
   } | null>(null);
+
+  private originalFileName: string | null = null;
   
   protected readonly hasImage = () => this.pipelineProcessor.result() !== null;
 
@@ -115,7 +118,45 @@ export class ImageBoard {
     this.fileInput().nativeElement.click();
   }
 
+  protected downloadImage(event: Event): void {
+    event.stopPropagation();
+    
+    const canvasRef = this.canvas();
+    if (!canvasRef) {
+      return;
+    }
+
+    const canvas = canvasRef.nativeElement;
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          return;
+        }
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        
+        // Use original filename without extension, add .png
+        const originalName = this.originalFileName;
+        if (originalName) {
+          const nameWithoutExt = originalName.replace(/\.[^/.]+$/, '');
+          link.download = `${nameWithoutExt}.png`;
+        } else {
+          link.download = 'output.png';
+        }
+        
+        link.click();
+        URL.revokeObjectURL(url);
+      }, 
+      'image/png'
+    );
+  }
+
   private loadImage(file: File): void {
+    // Store the original filename
+    this.originalFileName = file.name;
+    
     const reader = new FileReader();
     reader.onload = async (e) => {
       const arrayBuffer = e.target?.result as ArrayBuffer;

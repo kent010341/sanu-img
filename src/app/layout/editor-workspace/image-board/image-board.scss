@@ -19,7 +19,7 @@
   width: calc(100% - 16px);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 8px;
   padding: 8px 16px;
   background-color: #27272a;
@@ -33,6 +33,36 @@
   
   .info-separator {
     color: #52525b;
+  }
+  
+  .download-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background-color: #52525b;
+    color: #e4e4e7;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    lucide-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    &:hover {
+      background-color: #71717a;
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
   }
 }
 

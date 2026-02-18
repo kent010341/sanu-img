@@ -4,6 +4,7 @@
     @for (operator of operators(); track operator.id) {
       <app-operator-instance 
         [operator]="operator"
+        (operatorChange)="operatorChange($event)"
       />
     }
     @empty {

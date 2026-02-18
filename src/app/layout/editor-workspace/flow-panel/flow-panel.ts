@@ -24,6 +24,7 @@
 
 import { Component, inject } from '@angular/core';
 import { OperatorInstance } from '@sanu/components/operator-instance/operator-instance';
+import { ImageOperator } from '@sanu/core/operator/image-operator';
 import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
 
 @Component({
@@ -38,4 +39,9 @@ export class FlowPanel {
 
   protected readonly operators = this.pipelineProcessor.operators;
 
+  protected operatorChange(updatedOperator: ImageOperator): void {
+    this.operators.update(ops => ops.map(op => 
+      op.id === updatedOperator.id ? updatedOperator : op)
+    );
+  }
 }

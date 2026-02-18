@@ -22,17 +22,5 @@
  * SOFTWARE.
  */
 
-import { OperatorType } from "@sanu/core/operator/operator-metadata";
-import { ConfigType } from "@sanu/core/utils/types";
-
-export interface ImageOperator<C extends ConfigType = ConfigType> {
-
-  readonly id: string;
-
-  readonly type: OperatorType;
-
-  config: C;
-
-  readonly enable: boolean;
-
-}
+/** Represents a generic configuration object, which is a simple key-value pair */
+export type ConfigType = Record<string, unknown>;

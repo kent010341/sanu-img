@@ -23,6 +23,7 @@
  */
 
 import { ImageOperator } from "@sanu/core/operator/image-operator";
+import { applyOperator } from "@sanu/operators/operator-apply-registry";
 
 export class ImagePipeline {
 
@@ -31,10 +32,12 @@ export class ImagePipeline {
     let current = source;
 
     for (const op of operators) {
-      if (!op.enable()) {
-        continue;
-      }
-      current = await op.apply(current);
+      current = await applyOperator(
+        op.type,
+        current,
+        op.config,
+        op.enable
+      );
     }
 
     return current;

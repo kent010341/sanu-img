@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-import { signal } from "@angular/core";
 import { BaseOperator } from "@sanu/core/operator/base-operator";
 import { OperatorType } from "@sanu/core/operator/operator-metadata";
 import { CropConfig } from "@sanu/operators/crop/crop.config";
@@ -31,37 +30,6 @@ export class CropOperator extends BaseOperator<CropConfig> {
 
   override type: OperatorType = OperatorType.CROP;
 
-  override config = signal<CropConfig>({});
-
-  override async apply(input: ImageBitmap): Promise<ImageBitmap> {
-    const config = this.config();
-    
-    const left = config.left ?? 0;
-    const right = config.right ?? 0;
-    const top = config.top ?? 0;
-    const bottom = config.bottom ?? 0;
-    
-    // If no cropping is specified, return input as-is (noop)
-    if (left === 0 && right === 0 && top === 0 && bottom === 0) {
-      return input;
-    }
-    
-    // Calculate new dimensions
-    const width = input.width - left - right;
-    const height = input.height - top - bottom;
-    
-    // Validate that dimensions are positive. If not, return input as-is (noop)
-    if (width <= 0 || height <= 0) {
-      return input;
-    }
-    
-    const canvas = new OffscreenCanvas(width, height);
-    const ctx = canvas.getContext('2d')!;
-    
-    // Draw the cropped portion of the image
-    ctx.drawImage(input, left, top, width, height, 0, 0, width, height);
-    
-    return createImageBitmap(canvas);
-  }
+  override config: CropConfig = {};
 
 }

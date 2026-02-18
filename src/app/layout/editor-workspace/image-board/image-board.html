@@ -6,6 +6,10 @@
     @if (imageInfo()) {
         <div class="image-info">
             <span class="info-item">{{ imageInfo()!.width }} x {{ imageInfo()!.height }}</span>
+            <button class="download-btn" (click)="downloadImage($event)" title="Download Image">
+                <lucide-icon [img]="Download" [size]="16"></lucide-icon>
+                <span>Download</span>
+            </button>
         </div>
     }
 

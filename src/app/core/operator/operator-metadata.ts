@@ -22,12 +22,13 @@
  * SOFTWARE.
  */
 
-import { LucideIconData, Move, Crop, Scissors, Maximize2 } from "lucide-angular";
+import { LucideIconData, Move, Crop, Scissors, Maximize2, Paintbrush } from "lucide-angular";
 import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
 import { RESIZE_CONFIG_SCHEMA } from "@sanu/operators/resize/resize.config";
 import { CROP_CONFIG_SCHEMA } from "@sanu/operators/crop/crop.config";
 import { TRIM_CONFIG_SCHEMA } from "@sanu/operators/trim/trim.config";
 import { EXPAND_CONFIG_SCHEMA } from "@sanu/operators/expand/expand.config";
+import { FILL_CONFIG_SCHEMA } from "@sanu/operators/fill/fill.config";
 
 export enum OperatorType {
 
@@ -38,6 +39,8 @@ export enum OperatorType {
   TRIM = 'TRIM',
 
   EXPAND = 'EXPAND',
+
+  FILL = 'FILL',
 
 }
 
@@ -81,6 +84,13 @@ export const OPERATOR_METADATA: Record<OperatorType, OperatorMetadata> = {
     label: 'Expand',
     icon: Maximize2,
     configSchema: EXPAND_CONFIG_SCHEMA,
+  },
+
+  [OperatorType.FILL]: {
+    type: OperatorType.FILL,
+    label: 'Fill',
+    icon: Paintbrush,
+    configSchema: FILL_CONFIG_SCHEMA,
   },
 
 };

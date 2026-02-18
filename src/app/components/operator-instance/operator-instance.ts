@@ -68,12 +68,20 @@ export class OperatorInstance {
     return config[key];
   }
 
-  protected updateConfig(key: string, value: string): void {
+  protected updateConfig(key: string, value: string, type: 'number' | 'text'): void {
     const operator = this.operator();
     const currentConfig = operator.config();
     
-    const numValue = Number(value);
-    const parsedValue = value === '' || isNaN(numValue) ? null : numValue;
+    let parsedValue: unknown;
+    
+    if (type === 'text') {
+      // For text fields, use the string value directly (null if empty)
+      parsedValue = value === '' ? null : value;
+    } else if (type === 'number') {
+      // For number fields, parse as number
+      const numValue = Number(value);
+      parsedValue = value === '' || isNaN(numValue) ? null : numValue;
+    }
     
     operator.config.set({
       ...currentConfig,

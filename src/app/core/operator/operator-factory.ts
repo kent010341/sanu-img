@@ -28,6 +28,7 @@ import { OperatorType } from '@sanu/core/operator/operator-metadata';
 import { ResizeOperator } from '@sanu/operators/resize/resize.operator';
 import { CropOperator } from '@sanu/operators/crop/crop.operator';
 import { TrimOperator } from '@sanu/operators/trim/trim.operator';
+import { ExpandOperator } from '@sanu/operators/expand/expand.operator';
 
 /**
  * Factory service for creating ImageOperator instances.
@@ -42,6 +43,7 @@ export class OperatorFactory {
     [OperatorType.RESIZE]: ResizeOperator,
     [OperatorType.CROP]: CropOperator,
     [OperatorType.TRIM]: TrimOperator,
+    [OperatorType.EXPAND]: ExpandOperator,
   };
 
   /**

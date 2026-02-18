@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-import { LucideIconData, Move, Crop, Scissors } from "lucide-angular";
+import { LucideIconData, Move, Crop, Scissors, Maximize2 } from "lucide-angular";
 import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
 import { RESIZE_CONFIG_SCHEMA } from "@sanu/operators/resize/resize.config";
 import { CROP_CONFIG_SCHEMA } from "@sanu/operators/crop/crop.config";
 import { TRIM_CONFIG_SCHEMA } from "@sanu/operators/trim/trim.config";
+import { EXPAND_CONFIG_SCHEMA } from "@sanu/operators/expand/expand.config";
 
 export enum OperatorType {
 
@@ -35,6 +36,8 @@ export enum OperatorType {
   CROP = 'CROP',
 
   TRIM = 'TRIM',
+
+  EXPAND = 'EXPAND',
 
 }
 
@@ -71,6 +74,13 @@ export const OPERATOR_METADATA: Record<OperatorType, OperatorMetadata> = {
     label: 'Trim',
     icon: Scissors,
     configSchema: TRIM_CONFIG_SCHEMA,
+  },
+
+  [OperatorType.EXPAND]: {
+    type: OperatorType.EXPAND,
+    label: 'Expand',
+    icon: Maximize2,
+    configSchema: EXPAND_CONFIG_SCHEMA,
   },
 
 };

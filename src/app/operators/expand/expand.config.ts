@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2025 Kent010341
+ * Copyright (c) 2026 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,15 +24,21 @@
 
 import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
 
-export interface ResizeConfig extends Record<string, unknown> {
+export interface ExpandConfig extends Record<string, unknown> {
 
   width?: number;
 
   height?: number;
 
+  align?: string;
+
+  dx?: number;
+
+  dy?: number;
+
 }
 
-export const RESIZE_CONFIG_SCHEMA: OperatorConfigSchema<ResizeConfig> = {
+export const EXPAND_CONFIG_SCHEMA: OperatorConfigSchema<ExpandConfig> = {
   width: {
     key: 'width',
     label: 'Width',
@@ -44,6 +50,27 @@ export const RESIZE_CONFIG_SCHEMA: OperatorConfigSchema<ResizeConfig> = {
     key: 'height',
     label: 'Height',
     placeholder: 'Enter height in pixels',
+    required: false,
+    type: 'number',
+  },
+  align: {
+    key: 'align',
+    label: 'Align',
+    placeholder: 'c, l, r, t, b, lt, rt, lb, rb',
+    required: false,
+    type: 'text',
+  },
+  dx: {
+    key: 'dx',
+    label: 'Offset X',
+    placeholder: 'Horizontal offset in pixels',
+    required: false,
+    type: 'number',
+  },
+  dy: {
+    key: 'dy',
+    label: 'Offset Y',
+    placeholder: 'Vertical offset in pixels',
     required: false,
     type: 'number',
   }

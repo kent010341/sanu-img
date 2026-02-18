@@ -15,24 +15,26 @@
         </button>
       </div>
     </div>
-    <div class="instance-config">
-      @for (field of configFields(); track field.key) {
-        <div class="config-field">
-          <label class="config-label">
-            {{ field.label || field.key }}
-            @if (field.required) {
-              <span class="required-mark">*</span>
-            }
-          </label>
-          <input 
-            type="number"
-            class="config-input"
-            [value]="getValue(field.key) ?? ''"
-            [placeholder]="field.placeholder || ''"
-            (input)="updateConfig(field.key, $any($event.target).value)"
-          />
-        </div>
-      }
-    </div>
+    @if (configFields().length > 0) {
+      <div class="instance-config">
+        @for (field of configFields(); track field.key) {
+          <div class="config-field">
+            <label class="config-label">
+              {{ field.label || field.key }}
+              @if (field.required) {
+                <span class="required-mark">*</span>
+              }
+            </label>
+            <input 
+              type="number"
+              class="config-input"
+              [value]="getValue(field.key) ?? ''"
+              [placeholder]="field.placeholder || ''"
+              (input)="updateConfig(field.key, $any($event.target).value)"
+            />
+          </div>
+        }
+      </div>
+    }
   </div>
 </div>

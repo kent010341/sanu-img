@@ -27,6 +27,7 @@ import { applyCrop } from "@sanu/operators/crop/crop.apply";
 import { applyResize } from "@sanu/operators/resize/resize.apply";
 import { applyExpand } from "@sanu/operators/expand/expand.apply";
 import { applyTrim } from "@sanu/operators/trim/trim.apply";
+import { applyFill } from "@sanu/operators/fill/fill.apply";
 import { ConfigType } from "@sanu/core/utils/types";
 
 /**
@@ -46,6 +47,7 @@ export const OPERATOR_APPLY_REGISTRY: Record<OperatorType, OperatorApplyFn> = {
   [OperatorType.RESIZE]: applyResize,
   [OperatorType.EXPAND]: applyExpand,
   [OperatorType.TRIM]: applyTrim,
+  [OperatorType.FILL]: applyFill,
 };
 
 /**

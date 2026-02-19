@@ -6,13 +6,50 @@
   background-color: #1e1e1e;
   color: #ffffff;
 
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+
   .panel-title {
-    margin: 0 0 16px 0;
+    margin: 0;
     font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: #cccccc;
+  }
+
+  .clear-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: transparent;
+    border: 1px solid #3c3c3c;
+    border-radius: 4px;
+    color: #cccccc;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-color: #2a2a2a;
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #252526;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
   }
 
   .operator-list {

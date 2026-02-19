@@ -1,5 +1,16 @@
 <div class="flow-panel">
-  <h3 class="panel-title">Pipeline Flow</h3>
+  <div class="panel-header">
+    <h3 class="panel-title">Pipeline Flow</h3>
+    <button 
+      class="clear-button" 
+      (click)="clearAll()" 
+      [disabled]="operators().length === 0"
+      title="Clear all operators"
+    >
+      <lucide-icon [img]="Trash2" [size]="16"></lucide-icon>
+      <span>Clear All</span>
+    </button>
+  </div>
   <div class="operator-list">
     @for (operator of operators(); track operator.id) {
       <app-operator-instance 

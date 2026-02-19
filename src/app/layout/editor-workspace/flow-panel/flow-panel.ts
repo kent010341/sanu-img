@@ -23,13 +23,14 @@
  */
 
 import { Component, inject } from '@angular/core';
+import { LucideAngularModule, Trash2 } from 'lucide-angular';
 import { OperatorInstance } from '@sanu/components/operator-instance/operator-instance';
 import { ImageOperator } from '@sanu/core/operator/image-operator';
 import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
 
 @Component({
   selector: 'app-flow-panel',
-  imports: [OperatorInstance],
+  imports: [LucideAngularModule, OperatorInstance],
   templateUrl: './flow-panel.html',
   styleUrl: './flow-panel.scss'
 })
@@ -38,10 +39,15 @@ export class FlowPanel {
   private readonly pipelineProcessor = inject(PipelineProcessor);
 
   protected readonly operators = this.pipelineProcessor.operators;
+  protected readonly Trash2 = Trash2;
 
   protected operatorChange(updatedOperator: ImageOperator): void {
     this.operators.update(ops => ops.map(op => 
       op.id === updatedOperator.id ? updatedOperator : op)
     );
+  }
+
+  protected clearAll(): void {
+    this.operators.set([]);
   }
 }

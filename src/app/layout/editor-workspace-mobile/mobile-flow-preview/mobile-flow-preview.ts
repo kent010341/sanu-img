@@ -23,7 +23,7 @@
  */
 
 import { Component, inject, input, output } from '@angular/core';
-import { LucideAngularModule, ChevronUp, ChevronDown } from 'lucide-angular';
+import { LucideAngularModule, ChevronUp, ChevronDown, Trash2 } from 'lucide-angular';
 import { OPERATOR_METADATA } from '@sanu/core/operator/operator-metadata';
 import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
 import { OperatorInstance } from '@sanu/components/operator-instance/operator-instance';
@@ -46,6 +46,7 @@ export class MobileFlowPreview {
   protected readonly OPERATOR_METADATA = OPERATOR_METADATA;
   protected readonly ChevronUp = ChevronUp;
   protected readonly ChevronDown = ChevronDown;
+  protected readonly Trash2 = Trash2;
 
   protected onToggle(): void {
     this.toggleExpand.emit();
@@ -55,6 +56,10 @@ export class MobileFlowPreview {
     this.operators.update(ops => ops.map(op => 
       op.id === updatedOperator.id ? updatedOperator : op)
     );
+  }
+
+  protected clearAll(): void {
+    this.operators.set([]);
   }
 
 }

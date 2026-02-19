@@ -1,0 +1,18 @@
+<div class="operator-toolbar">
+  <div class="toolbar-title">Add Operator:</div>
+  <div class="toolbar-items">
+    @for (operatorType of operatorTypes; track operatorType) {
+      <button 
+        class="toolbar-button"
+        (click)="addOperator(operatorType)"
+        [title]="OPERATOR_METADATA[operatorType].label"
+      >
+        <lucide-icon 
+          [img]="OPERATOR_METADATA[operatorType].icon" 
+          [size]="20"
+        ></lucide-icon>
+        <span class="button-label">{{ OPERATOR_METADATA[operatorType].label }}</span>
+      </button>
+    }
+  </div>
+</div>

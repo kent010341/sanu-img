@@ -1,19 +1,25 @@
 <div class="editor-workspace">
-  <div class="editor-workspace-content">
-    
-    <!-- Left Sidebar -->
-    <div class="sidebar-left">
-      <app-node-shelf></app-node-shelf>
-    </div>
+  @if (isMobile()) {
+    <!-- Mobile Layout -->
+    <app-editor-workspace-mobile></app-editor-workspace-mobile>
+  } @else {
+    <!-- Desktop Layout -->
+    <div class="editor-workspace-content">
+      
+      <!-- Left Sidebar -->
+      <div class="sidebar-left">
+        <app-node-shelf></app-node-shelf>
+      </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-      <app-image-board></app-image-board>
-    </div>
+      <!-- Main Content -->
+      <div class="main-content">
+        <app-image-board></app-image-board>
+      </div>
 
-    <!-- Right Sidebar -->
-    <div class="sidebar-right">
-      <app-flow-panel></app-flow-panel>
+      <!-- Right Sidebar -->
+      <div class="sidebar-right">
+        <app-flow-panel></app-flow-panel>
+      </div>
     </div>
-  </div>
+  }
 </div>

@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2025 Kent010341
+ * Copyright (c) 2026 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,36 +22,27 @@
  * SOFTWARE.
  */
 
-import { Component, inject, signal } from '@angular/core';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { NodeShelf } from "@sanu/layout/editor-workspace/node-shelf/node-shelf";
-import { ImageBoard } from "@sanu/layout/editor-workspace/image-board/image-board";
-import { FlowPanel } from "@sanu/layout/editor-workspace/flow-panel/flow-panel";
-import { EditorWorkspaceMobile } from '@sanu/layout/editor-workspace-mobile/editor-workspace-mobile';
+import { Component, signal } from '@angular/core';
+import { ImageBoard } from '@sanu/layout/editor-workspace/image-board/image-board';
+import { MobileOperatorToolbar } from './mobile-operator-toolbar/mobile-operator-toolbar';
+import { MobileFlowPreview } from './mobile-flow-preview/mobile-flow-preview';
 
 @Component({
-  selector: 'app-editor-workspace',
+  selector: 'app-editor-workspace-mobile',
   imports: [
-    FlowPanel,
     ImageBoard,
-    NodeShelf,
-    EditorWorkspaceMobile,
-],
-  templateUrl: './editor-workspace.html',
-  styleUrl: './editor-workspace.scss'
+    MobileOperatorToolbar,
+    MobileFlowPreview,
+  ],
+  templateUrl: './editor-workspace-mobile.html',
+  styleUrl: './editor-workspace-mobile.scss'
 })
-export class EditorWorkspace {
+export class EditorWorkspaceMobile {
 
-  private readonly breakpointObserver = inject(BreakpointObserver);
+  protected readonly isFlowExpanded = signal<boolean>(false);
 
-  protected readonly isMobile = signal<boolean>(false);
-
-  constructor() {
-    this.breakpointObserver
-      .observe(['(orientation: portrait)'])
-      .subscribe(result => {
-        this.isMobile.set(result.matches);
-      });
+  toggleFlowPanel(): void {
+    this.isFlowExpanded.update(expanded => !expanded);
   }
 
 }

@@ -28,11 +28,11 @@ $color-accent-blue: #007acc;
   border-bottom: 1px solid $color-border-gray;
 
   &:hover {
-    background-color: lighten($color-bg-dark-secondary, 3%);
+    background-color: #2c2c2d;
   }
 
   &:active {
-    background-color: lighten($color-bg-dark-secondary, 5%);
+    background-color: #2f2f30;
   }
 }
 

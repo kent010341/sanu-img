@@ -1,5 +1,9 @@
-# SANU-img (Simple Adjustable Node UI)
+# SANU-img (Streamlined Agile Neat Utility)
 
-SANU-img (Simple Adjustable Node UI) — A lightweight web interface for building, adjusting, and reordering image-processing pipelines with modular nodes.  
+Live at [sanu-img.kechisy.com](https://sanu-img.kechisy.com/)!
 
-this is an Angular version of [image-utils](https://github.com/kent010341/image-utils).
+SANU-img (Streamlined Agile Neat Utility) — A lightweight, fast, and reactive image processing tool. Build visual pipelines with modular operators that respond instantly to any adjustment.
+
+Perfect for quick image tasks (resize, crop, trim, expand, etc.) without the overhead of professional editing software. Get your image ready before Photoshop even opens.
+
+This is an Angular version of [image-utils](https://github.com/kent010341/image-utils).

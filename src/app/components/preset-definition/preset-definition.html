@@ -1,0 +1,21 @@
+<div class="preset-definition" (click)="onClick()">
+  <div class="definition-content">
+    <div class="definition-icon">
+      @if (isSimpleIcon()) {
+        <svg 
+          role="img" 
+          viewBox="0 0 24 24" 
+          [attr.width]="24"
+          [attr.height]="24"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#fff"
+        >
+          <path [attr.d]="simpleIcon().path"/>
+        </svg>
+      } @else {
+        <lucide-icon [img]="lucideIcon()" [size]="24"></lucide-icon>
+      }
+    </div>
+    <div class="definition-label">{{ metadata().label }}</div>
+  </div>
+</div>

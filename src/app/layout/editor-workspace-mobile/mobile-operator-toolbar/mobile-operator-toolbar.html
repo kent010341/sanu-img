@@ -1,18 +1,63 @@
 <div class="operator-toolbar">
-  <div class="toolbar-title">Add Operator:</div>
-  <div class="toolbar-items">
-    @for (operatorType of operatorTypes; track operatorType) {
-      <button 
-        class="toolbar-button"
-        (click)="addOperator(operatorType)"
-        [title]="OPERATOR_METADATA[operatorType].label"
-      >
-        <lucide-icon 
-          [img]="OPERATOR_METADATA[operatorType].icon" 
-          [size]="20"
-        ></lucide-icon>
-        <span class="button-label">{{ OPERATOR_METADATA[operatorType].label }}</span>
-      </button>
-    }
-  </div>
+  <button class="mode-toggle" (click)="toggleMode()">
+    <div 
+      class="toggle-option"
+      [class.active]="activeTab() === 'operators'"
+    >
+      Operators
+    </div>
+    <div 
+      class="toggle-option"
+      [class.active]="activeTab() === 'presets'"
+    >
+      Presets
+    </div>
+  </button>
+  
+  @if (activeTab() === 'operators') {
+    <div class="toolbar-items">
+      @for (operatorType of operatorTypes; track operatorType) {
+        <button 
+          class="toolbar-button"
+          (click)="addOperator(operatorType)"
+          [title]="OPERATOR_METADATA[operatorType].label"
+        >
+          <lucide-icon 
+            [img]="OPERATOR_METADATA[operatorType].icon" 
+            [size]="20"
+          ></lucide-icon>
+          <span class="button-label">{{ OPERATOR_METADATA[operatorType].label }}</span>
+        </button>
+      }
+    </div>
+  } @else {
+    <div class="toolbar-items">
+      @for (presetType of presetTypes; track presetType) {
+        <button 
+          class="toolbar-button"
+          (click)="addPreset(presetType)"
+          [title]="PRESET_METADATA[presetType].label"
+        >
+          @if (isSimpleIcon(presetType)) {
+            <svg 
+              role="img" 
+              viewBox="0 0 24 24" 
+              width="20"
+              height="20"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#fff"
+            >
+              <path [attr.d]="getSimpleIconPath(presetType)"/>
+            </svg>
+          } @else {
+            <lucide-icon 
+              [img]="getLucideIcon(presetType)" 
+              [size]="20"
+            ></lucide-icon>
+          }
+          <span class="button-label">{{ PRESET_METADATA[presetType].label }}</span>
+        </button>
+      }
+    </div>
+  }
 </div>

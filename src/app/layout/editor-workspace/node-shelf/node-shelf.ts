@@ -22,15 +22,18 @@
  * SOFTWARE.
  */
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { OperatorDefinition } from '@sanu/components/operator-definition/operator-definition';
+import { PresetDefinition } from '@sanu/components/preset-definition/preset-definition';
 import { OperatorType } from '@sanu/core/operator/operator-metadata';
+import { PresetType } from '@sanu/core/preset/preset-metadata';
 import { OperatorFactory } from '@sanu/core/operator/operator-factory';
 import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
+import { PresetProcessor } from '@sanu/core/services/preset-processor';
 
 @Component({
   selector: 'app-node-shelf',
-  imports: [OperatorDefinition],
+  imports: [OperatorDefinition, PresetDefinition],
   templateUrl: './node-shelf.html',
   styleUrl: './node-shelf.scss'
 })
@@ -38,12 +41,19 @@ export class NodeShelf {
 
   private readonly operatorFactory = inject(OperatorFactory);
   private readonly pipelineProcessor = inject(PipelineProcessor);
+  private readonly presetProcessor = inject(PresetProcessor);
 
+  protected readonly activeTab = signal<'operators' | 'presets'>('operators');
   protected readonly operatorTypes = Object.values(OperatorType);
+  protected readonly presetTypes = Object.values(PresetType);
 
-  protected onNodeClick(operatorType: OperatorType): void {
+  protected onOperatorClick(operatorType: OperatorType): void {
     const operator = this.operatorFactory.createOperator(operatorType);
     this.pipelineProcessor.appendOperator(operator);
+  }
+
+  protected onPresetClick(presetType: PresetType): void {
+    this.presetProcessor.appendPreset(presetType);
   }
 
 }

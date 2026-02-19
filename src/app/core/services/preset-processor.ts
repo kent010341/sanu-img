@@ -54,13 +54,13 @@ export class PresetProcessor {
   ) {}
 
   /**
-   * Apply a preset to the current pipeline by appending its operators.
+   * Append a preset to the current pipeline by adding its operators.
    * Existing operators in the pipeline will be preserved.
    * 
-   * @param presetType The type of preset to apply
+   * @param presetType The type of preset to append
    * @throws Error if the preset type is not found
    */
-  applyPreset(presetType: PresetType): void {
+  appendPreset(presetType: PresetType): void {
     const presetConfig = PRESET_CONFIG_REGISTRY[presetType];
     
     if (!presetConfig) {

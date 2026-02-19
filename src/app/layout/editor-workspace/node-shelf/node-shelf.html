@@ -1,11 +1,40 @@
 <div class="node-shelf">
-  <h3 class="shelf-title">Operators</h3>
-  <div class="node-list">
-    @for (operatorType of operatorTypes; track operatorType) {
-      <app-operator-definition 
-        [operatorType]="operatorType"
-        (nodeClick)="onNodeClick($event)"
-      />
-    }
+  <div class="shelf-header">
+    <div class="tab-buttons">
+      <button 
+        class="tab-button"
+        [class.active]="activeTab() === 'operators'"
+        (click)="activeTab.set('operators')"
+      >
+        Operators
+      </button>
+      <button 
+        class="tab-button"
+        [class.active]="activeTab() === 'presets'"
+        (click)="activeTab.set('presets')"
+      >
+        Presets
+      </button>
+    </div>
   </div>
+  
+  @if (activeTab() === 'operators') {
+    <div class="node-list">
+      @for (operatorType of operatorTypes; track operatorType) {
+        <app-operator-definition 
+          [operatorType]="operatorType"
+          (nodeClick)="onOperatorClick($event)"
+        />
+      }
+    </div>
+  } @else {
+    <div class="node-list">
+      @for (presetType of presetTypes; track presetType) {
+        <app-preset-definition 
+          [presetType]="presetType"
+          (presetClick)="onPresetClick($event)"
+        />
+      }
+    </div>
+  }
 </div>

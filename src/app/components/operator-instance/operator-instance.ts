@@ -68,14 +68,14 @@ export class OperatorInstance {
     return config[key];
   }
 
-  protected updateConfig(key: string, value: string, type: 'number' | 'text'): void {
+  protected updateConfig(key: string, value: string, type: 'number' | 'text' | 'select'): void {
     this.operator.update(op => {
       const currentConfig = op.config;
       
       let parsedValue: unknown;
       
-      if (type === 'text') {
-        // For text fields, use the string value directly (null if empty)
+      if (type === 'text' || type === 'select') {
+        // For text and select fields, use the string value directly (null if empty)
         parsedValue = value === '' ? null : value;
       } else if (type === 'number') {
         // For number fields, parse as number

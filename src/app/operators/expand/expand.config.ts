@@ -56,9 +56,20 @@ export const EXPAND_CONFIG_SCHEMA: OperatorConfigSchema<ExpandConfig> = {
   align: {
     key: 'align',
     label: 'Align',
-    placeholder: 'c, l, r, t, b, lt, rt, lb, rb',
+    placeholder: 'Select alignment',
     required: false,
-    type: 'text',
+    type: 'select',
+    options: [
+      { value: 'c', viewValue: 'Center' },
+      { value: 'l', viewValue: 'Left' },
+      { value: 'r', viewValue: 'Right' },
+      { value: 't', viewValue: 'Top' },
+      { value: 'b', viewValue: 'Bottom' },
+      { value: 'lt', viewValue: 'Left Top' },
+      { value: 'rt', viewValue: 'Right Top' },
+      { value: 'lb', viewValue: 'Left Bottom' },
+      { value: 'rb', viewValue: 'Right Bottom' }
+    ]
   },
   dx: {
     key: 'dx',

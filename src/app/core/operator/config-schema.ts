@@ -22,12 +22,20 @@
  * SOFTWARE.
  */
 
+export interface SelectionModel {
+  readonly value: string;
+  readonly viewValue: string;
+}
+
 export interface ConfigFieldSchema {
   readonly key: string;
   readonly label?: string;
   readonly placeholder?: string;
   readonly required?: boolean;
-  readonly type: 'number' | 'text';
+  readonly type: 'number' | 'text' | 'select';
+  readonly min?: number;
+  readonly max?: number;
+  readonly options?: readonly SelectionModel[];
 }
 
 export type OperatorConfigSchema<C extends Record<string, unknown>> = {

@@ -34,8 +34,12 @@ export const FLIP_CONFIG_SCHEMA: OperatorConfigSchema<FlipConfig> = {
   direction: {
     key: 'direction',
     label: 'Direction',
-    placeholder: 'h (horizontal) or v (vertical)',
+    placeholder: 'Select direction',
     required: false,
-    type: 'text',
+    type: 'select',
+    options: [
+      { value: 'h', viewValue: 'Horizontal' },
+      { value: 'v', viewValue: 'Vertical' }
+    ]
   }
 };

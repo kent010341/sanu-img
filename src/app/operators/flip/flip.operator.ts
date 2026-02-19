@@ -30,6 +30,8 @@ export class FlipOperator extends BaseOperator<FlipConfig> {
 
   override type: OperatorType = OperatorType.FLIP;
 
-  override config: FlipConfig = {};
+  override config: FlipConfig = {
+    direction: 'h',
+  };
 
 }

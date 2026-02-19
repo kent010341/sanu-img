@@ -24,15 +24,10 @@ $color-border-gray: #3c3c3c;
 }
 
 .sidebar-left {
-  display: none;
   width: 25%;
   background-color: $color-bg-dark-secondary;
   border-right: 2px solid $color-border-gray;
   overflow-y: auto;
-
-  @media (min-width: 768px) {
-    display: block;
-  }
 }
 
 .main-content {
@@ -44,13 +39,8 @@ $color-border-gray: #3c3c3c;
 }
 
 .sidebar-right {
-  display: none;
   width: 25%;
   background-color: $color-bg-dark-secondary;
   border-left: 2px solid $color-border-gray;
   overflow-y: auto;
-
-  @media (min-width: 1024px) {
-    display: block;
-  }
 }

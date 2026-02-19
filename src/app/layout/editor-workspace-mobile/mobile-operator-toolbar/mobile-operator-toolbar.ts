@@ -1,7 +1,7 @@
 /**
  * MIT License
  * 
- * Copyright (c) 2025 Kent010341
+ * Copyright (c) 2026 Kent010341
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,36 +22,29 @@
  * SOFTWARE.
  */
 
-import { Component, inject, signal } from '@angular/core';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { NodeShelf } from "@sanu/layout/editor-workspace/node-shelf/node-shelf";
-import { ImageBoard } from "@sanu/layout/editor-workspace/image-board/image-board";
-import { FlowPanel } from "@sanu/layout/editor-workspace/flow-panel/flow-panel";
-import { EditorWorkspaceMobile } from '@sanu/layout/editor-workspace-mobile/editor-workspace-mobile';
+import { Component, inject } from '@angular/core';
+import { LucideAngularModule } from 'lucide-angular';
+import { OPERATOR_METADATA, OperatorType } from '@sanu/core/operator/operator-metadata';
+import { OperatorFactory } from '@sanu/core/operator/operator-factory';
+import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
 
 @Component({
-  selector: 'app-editor-workspace',
-  imports: [
-    FlowPanel,
-    ImageBoard,
-    NodeShelf,
-    EditorWorkspaceMobile,
-],
-  templateUrl: './editor-workspace.html',
-  styleUrl: './editor-workspace.scss'
+  selector: 'app-mobile-operator-toolbar',
+  imports: [LucideAngularModule],
+  templateUrl: './mobile-operator-toolbar.html',
+  styleUrl: './mobile-operator-toolbar.scss'
 })
-export class EditorWorkspace {
+export class MobileOperatorToolbar {
 
-  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly operatorFactory = inject(OperatorFactory);
+  private readonly pipelineProcessor = inject(PipelineProcessor);
 
-  protected readonly isMobile = signal<boolean>(false);
+  protected readonly operatorTypes = Object.values(OperatorType);
+  protected readonly OPERATOR_METADATA = OPERATOR_METADATA;
 
-  constructor() {
-    this.breakpointObserver
-      .observe(['(orientation: portrait)'])
-      .subscribe(result => {
-        this.isMobile.set(result.matches);
-      });
+  protected addOperator(operatorType: OperatorType): void {
+    const operator = this.operatorFactory.createOperator(operatorType);
+    this.pipelineProcessor.appendOperator(operator);
   }
 
 }

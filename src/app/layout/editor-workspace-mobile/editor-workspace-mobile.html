@@ -1,0 +1,19 @@
+<div class="mobile-workspace">
+  <!-- Top Toolbar -->
+  <div class="mobile-toolbar">
+    <app-mobile-operator-toolbar></app-mobile-operator-toolbar>
+  </div>
+
+  <!-- Main Image Area -->
+  <div class="mobile-main">
+    <app-image-board></app-image-board>
+  </div>
+
+  <!-- Bottom Flow Panel -->
+  <div class="mobile-flow-container">
+    <app-mobile-flow-preview 
+      [isExpanded]="isFlowExpanded()"
+      (toggleExpand)="toggleFlowPanel()"
+    ></app-mobile-flow-preview>
+  </div>
+</div>

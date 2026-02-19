@@ -1,0 +1,55 @@
+<div class="flow-preview" [class.expanded]="isExpanded()">
+  <!-- Preview Header (always visible) -->
+  <div class="preview-header" (click)="onToggle()">
+    <div class="preview-title">
+      <span class="title-text">Pipeline Flow</span>
+      <span class="operator-count">({{ operators().length }})</span>
+    </div>
+    
+    @if (operators().length > 0 && !isExpanded()) {
+      <!-- Icon Stack Preview -->
+      <div class="icon-stack">
+        @for (operator of operators(); track operator.id) {
+          <div 
+            class="stack-icon"
+            [class.disabled]="!operator.enable"
+            [title]="OPERATOR_METADATA[operator.type].label"
+          >
+            <lucide-icon 
+              [img]="OPERATOR_METADATA[operator.type].icon" 
+              [size]="16"
+            ></lucide-icon>
+          </div>
+        }
+      </div>
+    }
+    
+    <!-- Toggle Button -->
+    <button class="toggle-button">
+      <lucide-icon 
+        [img]="isExpanded() ? ChevronDown : ChevronUp" 
+        [size]="20"
+      ></lucide-icon>
+    </button>
+  </div>
+
+  <!-- Expanded Content -->
+  @if (isExpanded()) {
+    <div class="preview-content">
+      <div class="operator-list">
+        @for (operator of operators(); track operator.id) {
+          <app-operator-instance 
+            [operator]="operator"
+            (operatorChange)="operatorChange($event)"
+          />
+        }
+        @empty {
+          <div class="empty-state">
+            <p>No operators in pipeline</p>
+            <p class="hint">Add operators from the toolbar above</p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

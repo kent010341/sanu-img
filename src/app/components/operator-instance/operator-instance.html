@@ -25,13 +25,29 @@
                 <span class="required-mark">*</span>
               }
             </label>
-            <input 
-              [type]="field.type"
-              class="config-input"
-              [value]="getValue(field.key) ?? ''"
-              [placeholder]="field.placeholder || ''"
-              (input)="updateConfig(field.key, $any($event.target).value, field.type)"
-            />
+            @if (field.type === 'select') {
+              <select 
+                class="config-input"
+                [class.placeholder]="!getValue(field.key)"
+                [value]="getValue(field.key) ?? ''"
+                (change)="updateConfig(field.key, $any($event.target).value, field.type)"
+              >
+                <option value="" disabled selected hidden>{{ field.placeholder || 'Select an option' }}</option>
+                @for (option of field.options; track option.value) {
+                  <option [value]="option.value">{{ option.viewValue }}</option>
+                }
+              </select>
+            } @else {
+              <input 
+                [type]="field.type"
+                class="config-input"
+                [value]="getValue(field.key) ?? ''"
+                [placeholder]="field.placeholder || ''"
+                [min]="field.min"
+                [max]="field.max"
+                (input)="updateConfig(field.key, $any($event.target).value, field.type)"
+              />
+            }
           </div>
         }
       </div>

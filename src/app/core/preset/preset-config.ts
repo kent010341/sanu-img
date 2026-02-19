@@ -23,16 +23,31 @@
  */
 
 import { OperatorType } from "@sanu/core/operator/operator-metadata";
+import { PresetType } from "@sanu/core/preset/preset-metadata";
 import { ConfigType } from "@sanu/core/utils/types";
 
-export interface ImageOperator<C extends ConfigType = ConfigType> {
+/**
+ * Template for an operator within a preset.
+ * Defines the operator type, its configuration, and initial enabled state.
+ */
+export interface PresetOperatorTemplate {
+  /** The type of operator to create */
+  type: OperatorType;
+  
+  /** The configuration for the operator */
+  config: ConfigType;
+  
+  /** Whether the operator should be enabled by default */
+  enabled: boolean;
+}
 
-  readonly id: string;
-
-  readonly type: OperatorType;
-
-  config: C;
-
-  enable: boolean;
-
+/**
+ * Configuration for a preset, defining a sequence of operators to apply.
+ */
+export interface PresetConfig {
+  /** The preset type identifier */
+  type: PresetType;
+  
+  /** Ordered list of operators to create and configure */
+  operators: PresetOperatorTemplate[];
 }

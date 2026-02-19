@@ -30,6 +30,8 @@ export class RollOperator extends BaseOperator<RollConfig> {
 
   override type: OperatorType = OperatorType.ROLL;
 
-  override config: RollConfig = {};
+  override config: RollConfig = {
+    direction: 'h',
+  };
 
 }

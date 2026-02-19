@@ -30,6 +30,8 @@ export class ExpandOperator extends BaseOperator<ExpandConfig> {
 
   override type: OperatorType = OperatorType.EXPAND;
 
-  override config: ExpandConfig = {};
+  override config: ExpandConfig = {
+    align: 'c'
+  };
 
 }

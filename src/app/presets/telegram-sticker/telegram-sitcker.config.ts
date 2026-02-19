@@ -22,17 +22,53 @@
  * SOFTWARE.
  */
 
+import { PresetConfig } from "@sanu/core/preset/preset-config";
+import { PresetType } from "@sanu/core/preset/preset-metadata";
 import { OperatorType } from "@sanu/core/operator/operator-metadata";
-import { ConfigType } from "@sanu/core/utils/types";
 
-export interface ImageOperator<C extends ConfigType = ConfigType> {
-
-  readonly id: string;
-
-  readonly type: OperatorType;
-
-  config: C;
-
-  enable: boolean;
-
-}
+/**
+ * Telegram Sticker preset configuration.
+ * 
+ * Creates stickers with proper dimensions (512x512) and transparent background.
+ * 
+ * Pipeline:
+ * 1. Crop (optional, disabled by default) - Trim 2px from left and right edges
+ * 2. Trim - Remove transparent borders
+ * 3. Fit - Scale to fit within 512x512 while maintaining aspect ratio
+ * 4. Expand - Expand to exactly 512x512 with centered alignment
+ */
+export const TELEGRAM_STICKER_CONFIG: PresetConfig = {
+  type: PresetType.TELEGRAM_STICKER,
+  operators: [
+    {
+      type: OperatorType.CROP,
+      config: { 
+        left: 2, 
+        right: 2 
+      },
+      enabled: false
+    },
+    {
+      type: OperatorType.TRIM,
+      config: {},
+      enabled: true
+    },
+    {
+      type: OperatorType.FIT,
+      config: { 
+        width: 512, 
+        height: 512 
+      },
+      enabled: true
+    },
+    {
+      type: OperatorType.EXPAND,
+      config: { 
+        width: 512, 
+        height: 512, 
+        align: 'c'
+      },
+      enabled: true
+    }
+  ]
+};

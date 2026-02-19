@@ -22,17 +22,29 @@
  * SOFTWARE.
  */
 
-import { OperatorType } from "@sanu/core/operator/operator-metadata";
-import { ConfigType } from "@sanu/core/utils/types";
+import { OperatorConfigSchema } from "@sanu/core/operator/config-schema";
 
-export interface ImageOperator<C extends ConfigType = ConfigType> {
+export interface FitConfig extends Record<string, unknown> {
 
-  readonly id: string;
+  width?: number;
 
-  readonly type: OperatorType;
-
-  config: C;
-
-  enable: boolean;
+  height?: number;
 
 }
+
+export const FIT_CONFIG_SCHEMA: OperatorConfigSchema<FitConfig> = {
+  width: {
+    key: 'width',
+    label: 'Width',
+    placeholder: 'Enter target width in pixels',
+    required: false,
+    type: 'number',
+  },
+  height: {
+    key: 'height',
+    label: 'Height',
+    placeholder: 'Enter target height in pixels',
+    required: false,
+    type: 'number',
+  }
+};

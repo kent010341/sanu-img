@@ -22,17 +22,43 @@
  * SOFTWARE.
  */
 
-import { OperatorType } from "@sanu/core/operator/operator-metadata";
-import { ConfigType } from "@sanu/core/utils/types";
+import { LucideIconData } from 'lucide-angular';
+import { SimpleIcon, siTelegram } from 'simple-icons';
 
-export interface ImageOperator<C extends ConfigType = ConfigType> {
+export enum PresetType {
+  
+  TELEGRAM_STICKER = 'TELEGRAM_STICKER',
 
-  readonly id: string;
-
-  readonly type: OperatorType;
-
-  config: C;
-
-  enable: boolean;
+  TELEGRAM_STICKER_ICON = 'TELEGRAM_STICKER_ICON',
 
 }
+
+export interface PresetMetadata {
+
+  readonly type: PresetType;
+
+  readonly label: string;
+
+  readonly description?: string;
+
+  readonly icon: SimpleIcon | LucideIconData;
+
+}
+
+export const PRESET_METADATA: Record<PresetType, PresetMetadata> = {
+
+  [PresetType.TELEGRAM_STICKER]: {
+    type: PresetType.TELEGRAM_STICKER,
+    label: 'Telegram Sticker',
+    description: 'Create Telegram stickers with the correct dimensions and transparent background.',
+    icon: siTelegram,
+  },
+
+  [PresetType.TELEGRAM_STICKER_ICON]: {
+    type: PresetType.TELEGRAM_STICKER_ICON,
+    label: 'Telegram Sticker Icon',
+    description: 'Create Telegram sticker set icon with the correct dimensions and transparent background.',
+    icon: siTelegram,
+  },
+
+};

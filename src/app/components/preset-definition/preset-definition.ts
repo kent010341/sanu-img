@@ -22,17 +22,43 @@
  * SOFTWARE.
  */
 
-import { OperatorType } from "@sanu/core/operator/operator-metadata";
-import { ConfigType } from "@sanu/core/utils/types";
+import { Component, computed, input, output } from '@angular/core';
+import { LucideAngularModule, LucideIconData } from 'lucide-angular';
+import { PRESET_METADATA, PresetType } from '@sanu/core/preset/preset-metadata';
+import { SimpleIcon } from 'simple-icons';
 
-export interface ImageOperator<C extends ConfigType = ConfigType> {
+@Component({
+  selector: 'app-preset-definition',
+  imports: [LucideAngularModule],
+  templateUrl: './preset-definition.html',
+  styleUrl: './preset-definition.scss'
+})
+export class PresetDefinition {
 
-  readonly id: string;
+  readonly presetType = input.required<PresetType>();
 
-  readonly type: OperatorType;
+  readonly presetClick = output<PresetType>();
 
-  config: C;
+  protected readonly metadata = computed(() => {
+    const type = this.presetType();
+    return PRESET_METADATA[type];
+  });
 
-  enable: boolean;
+  protected readonly isSimpleIcon = computed(() => {
+    const icon = this.metadata().icon;
+    return 'path' in icon && 'hex' in icon;
+  });
+
+  protected readonly simpleIcon = computed(() => {
+    return this.metadata().icon as SimpleIcon;
+  });
+
+  protected readonly lucideIcon = computed(() => {
+    return this.metadata().icon as LucideIconData;
+  });
+
+  protected onClick(): void {
+    this.presetClick.emit(this.presetType());
+  }
 
 }

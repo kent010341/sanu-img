@@ -22,17 +22,14 @@
  * SOFTWARE.
  */
 
+import { BaseOperator } from "@sanu/core/operator/base-operator";
 import { OperatorType } from "@sanu/core/operator/operator-metadata";
-import { ConfigType } from "@sanu/core/utils/types";
+import { FitConfig } from "@sanu/operators/fit/fit.config";
 
-export interface ImageOperator<C extends ConfigType = ConfigType> {
+export class FitOperator extends BaseOperator<FitConfig> {
 
-  readonly id: string;
+  override type: OperatorType = OperatorType.FIT;
 
-  readonly type: OperatorType;
-
-  config: C;
-
-  enable: boolean;
+  override config: FitConfig = {};
 
 }

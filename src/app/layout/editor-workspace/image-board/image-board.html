@@ -21,7 +21,7 @@
          (dragleave)="onDragLeave($event)"
          (drop)="onDrop($event)">
         @if (hasImage()) {
-            <div class="canvas-wrapper">
+            <div class="canvas-wrapper" [style.aspect-ratio]="canvasAspectRatio()">
                 <canvas #canvas class="preview-image"></canvas>
             </div>
         } @else {

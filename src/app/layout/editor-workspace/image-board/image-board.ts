@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import { Component, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { PipelineProcessor } from '@sanu/core/services/pipeline-processor';
 import { LucideAngularModule, Upload, Download, Image as ImageIcon } from 'lucide-angular';
 
@@ -45,10 +45,22 @@ export class ImageBoard {
   protected readonly Image = ImageIcon;
   
   protected readonly isDragging = signal(false);
-  protected readonly imageInfo = signal<{
-    width: number;
-    height: number;
-  } | null>(null);
+
+  protected readonly imageInfo = computed(() => {
+    const bitmap = this.pipelineProcessor.result();
+    if (bitmap == null) {
+      return null;
+    }
+    return { width: bitmap.width, height: bitmap.height };
+  });
+
+  protected readonly canvasAspectRatio = computed(() => {
+    const bitmap = this.pipelineProcessor.result();
+    if (bitmap == null) {
+      return null;
+    }
+    return `${bitmap.width} / ${bitmap.height}`;
+  });
 
   private originalFileName: string | null = null;
   
@@ -57,13 +69,12 @@ export class ImageBoard {
   constructor() {
     effect(() => {
       const bitmap = this.pipelineProcessor.result();
-      if (!bitmap) {
-        this.imageInfo.set(null);
+      if (bitmap == null) {
         return;
       }
 
       const canvasRef = this.canvas();
-      if (!canvasRef) {
+      if (canvasRef == null) {
         return;
       }
 
@@ -73,12 +84,6 @@ export class ImageBoard {
 
       const ctx = canvas.getContext('2d')!;
       ctx.drawImage(bitmap, 0, 0);
-      
-      // Update image info with current bitmap dimensions
-      this.imageInfo.set({
-        width: bitmap.width,
-        height: bitmap.height
-      });
     });
   }
 
